@@ -229,22 +229,50 @@ button:active {
 .campus-col {
   min-height: 250px;
   position: relative;
+  display: block;
   background:
     linear-gradient(145deg, rgba(16, 35, 61, 0.08), rgba(53, 107, 250, 0.12)),
     linear-gradient(135deg, #dfeeff, #f8fbff);
 }
 
-.campus-col::before {
-  content: "Campus";
+.campus-col img {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+}
+
+.layer {
   position: absolute;
-  inset: auto 1rem 1rem 1rem;
-  padding: 0.7rem 1rem;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 35, 61, 0.05) 0%,
+    rgba(16, 35, 61, 0.38) 100%
+  );
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.campus-col:hover .layer {
+  opacity: 1;
+}
+
+.layer h3 {
+  margin: 0;
+  padding: 0.75rem 1.1rem;
   border-radius: 999px;
-  background: rgba(16, 35, 61, 0.75);
-  color: #fff;
-  font-size: 0.92rem;
-  letter-spacing: 0.03em;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(16, 35, 61, 0.15);
 }
 
 .facilities-col {
