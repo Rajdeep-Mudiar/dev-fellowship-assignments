@@ -136,11 +136,9 @@ button:active {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(rgba(16, 35, 61, 0.84), rgba(16, 35, 61, 0.84)),
-    url("assets/eduford.png") center/contain no-repeat;
-  opacity: 0.14;
-  transform: scale(1.05);
+  background: url("assets/eduford.png") center/cover no-repeat;
+  opacity: 0.3;
+  transform: scale(1.02);
   pointer-events: none;
   z-index: 0;
 }
