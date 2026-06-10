@@ -38,23 +38,23 @@ The following screenshots document the final pages of the website:
 
 ### Landing Page
 
-![Landing Page](landing.png)
+![Landing Page](assets/landing.png)
 
 ### About Page
 
-![About Page](about_us.png)
+![About Page](assets/about_us.png)
 
 ### Courses Page
 
-![Courses Page](courses.png)
+![Courses Page](assets/courses.png)
 
 ### Blog Page
 
-![Blog Page](blog.png)
+![Blog Page](assets/blog.png)
 
 ### Contact Page
 
-![Contact Page](contact.png)
+![Contact Page](assets/contact.png)
 
 ## Project Structure
 
@@ -63,6 +63,11 @@ Task_1_Eduford_Landing_Page/
 ├── assets/
 │   ├── logo.png
 │   ├── eduford.png
+│   ├── landing.png
+│   ├── about_us.png
+│   ├── courses.png
+│   ├── blog.png
+│   ├── contact.png
 │   ├── london.jpg
 │   ├── new_york.jpg
 │   ├── washington.jpg
