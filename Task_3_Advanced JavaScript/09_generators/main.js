@@ -1,3 +1,5 @@
+// Generator is a better approach for iterators
+
 function normalFunction() {
   console.log("Hello");
   console.log("World");
