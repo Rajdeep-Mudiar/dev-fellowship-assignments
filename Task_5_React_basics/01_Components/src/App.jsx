@@ -27,6 +27,7 @@ import { NewsLetter } from "./Newsletter";
 import { Menu } from "./Menu";
 import { Counter } from "./Counter";
 import { LoginCard } from "./LoginCard";
+import { SimpleCounter } from "./SimpleCounter";
 
 function App() {
   return (
@@ -144,6 +145,9 @@ function App() {
 
       <h1>Login Card</h1>
       <LoginCard />
+
+      <h1>Simple Counter</h1>
+      <SimpleCounter />
     </div>
   );
 }

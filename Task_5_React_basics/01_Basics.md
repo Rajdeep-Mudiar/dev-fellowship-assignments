@@ -348,3 +348,39 @@ UserDashboard.jsx
 2. Only call hooks from React functions i.e,
    - from React component
    - or from custom hooks
+
+## Lec 20 --> How State Updates Work
+
+SimpleCounter.jsx
+
+### How state updates work
+
+Updating the UI is a 3-phase process:
+
+- the trigger phase
+- the render phase
+- the commit phase
+
+### 1. The trigger phase
+
+This happens the moment we call a state setter function like setCount()
+We're not updating the UI yet
+
+### 2. Render phase
+
+React calls our component function again
+React figures out which parts of the UI, if any need to be updated
+Re-running the function doesn't immediately change what's on screen
+
+### 3. Commit Phase
+
+React takes the changes it calculated during the render phase and applies them to the DOM
+
+### How setCOunt update works
+
+1. We call setCount(count + 1) (trigger phase)
+2. React marks our component as needing an update (trigger phase)
+3. React calls our component function again (render phase)
+4. Our function returns new JSX with the updated count (render phase)
+5. React compares this render with the previous one and figures out what changed (render phase)
+6. React updates only what changed in the actual DOM (commit phase)
