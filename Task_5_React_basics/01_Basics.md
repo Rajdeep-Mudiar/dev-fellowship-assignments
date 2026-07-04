@@ -247,3 +247,56 @@ Summary
 When we need a child component to communicate with its parent, we pass event handlers as props
 The child says something happened and the parent decides what to do about it
 We will use it every time we build a reusable component that needs different behaviours in different places
+
+## Lec 17 --> Introduction to State
+
+Counter.jsx
+
+1. Changing variables doesn't make React update the screen(no re-render)
+2. Variables reset every time the component renderes (no persistance)
+
+This is where state comes in
+
+### State
+
+State is a component's memory . It is special data that:
+
+1. Triggers a re-render when it changes (solving our screen update problem)
+2. Persists between renderes (solving our reset problem)
+
+It is used in :
+
+- Shopping carts that show how many items we have added
+- Forms that display what we re typing
+- Modals that open and close
+- Theme switchers that toggle between light and dark mode
+
+None of these would work with regular variables . They all need state
+
+### Props vs state
+
+#### Props
+
+1. Props are like arguments passed to a function
+2. It come from outside and we can't change them
+
+#### State
+
+1. State is like the component's personal memory
+2. It belongs to the component and the component can change it
+3. State is what makes React components truly interactive . Without state , we're basically just creating fancy HTML templates
+4. With state , we can build real applications
+
+### When do we need State
+
+- Does this data need to change over time ?
+- Should the UI update when this data changes?
+- Does the component need to "remember" this between renders?
+
+If we answered yes to any of these , we need state
+
+### Hooks
+
+React makes adding state to components super easy with something called hooks .
+Hooks are special functions that let us "hook into" React features.
+And the most important hook for managing state is called useState

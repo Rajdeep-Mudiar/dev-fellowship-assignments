@@ -25,6 +25,7 @@ import { CustomButton } from "./CustomButton";
 import { Contact } from "./Contact";
 import { NewsLetter } from "./Newsletter";
 import { Menu } from "./Menu";
+import { Counter } from "./Counter";
 
 function App() {
   return (
@@ -135,6 +136,9 @@ function App() {
 
       <h1>Menu</h1>
       <Menu />
+
+      <h1>Counter</h1>
+      <Counter />
     </div>
   );
 }
