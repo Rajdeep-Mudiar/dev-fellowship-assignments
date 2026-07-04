@@ -202,8 +202,8 @@ Ex: Tailwind, styled components , emotion etc
 3 different ways to style components
 
 1. Inline Styles --> We don't write inline styles as a string . Instead , we use a JavaScript object . refer Alert.jsx
-2. External CSS files --> The classic way we've been styling websites for years . refer ExternalCSS.jsx
-3. CSS Modules --> CSS Modules give us the best of both worlds
+2. External CSS files --> The classic way we've been styling websites for years . refer ExternalCSS.jsx, ExternalCSS.css
+3. CSS Modules --> CSS Modules give us the best of both worlds --> refer CssModules.jsx,Css.module.css
    - separate CSS files
    - but with locally scoped classes
 
@@ -227,3 +227,23 @@ React supports all the events from regular JS
 - onSubmit for forms
 - onMouseEnter for hovering
 - etc
+
+Summary
+
+- Handling events in React is all about passing functions to special props like onClick
+- Remember to pass the function , not call it
+- Use the event object when you need info about the event
+- Event handlers have access to all the component's variables and props since they're defined inside the component
+
+## Lec 16 --> Event Handlers as Props
+
+ActionButton.jsx , Contact.jsx , Newsletter.jsx , MenuItem.jsx , Menu.jsx
+
+For parent-to-child communication , we use props
+For child-to-parent communication , we also use props
+But this time, we pass event handlers as props
+
+Summary
+When we need a child component to communicate with its parent, we pass event handlers as props
+The child says something happened and the parent decides what to do about it
+We will use it every time we build a reusable component that needs different behaviours in different places

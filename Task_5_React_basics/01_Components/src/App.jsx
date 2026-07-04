@@ -22,6 +22,9 @@ import { Alert } from "./Alert";
 import { ExternalCSS } from "./ExternalCSS";
 import { ExternalCSS as CssModules } from "./CssModules";
 import { CustomButton } from "./CustomButton";
+import { Contact } from "./Contact";
+import { NewsLetter } from "./Newsletter";
+import { Menu } from "./Menu";
 
 function App() {
   return (
@@ -123,6 +126,15 @@ function App() {
       <CustomButton text="Like" />
       <CustomButton text="Dislike" />
       <CustomButton text="Subscribe" />
+
+      <h1>Contact</h1>
+      <Contact />
+
+      <h1>Newsletter</h1>
+      <NewsLetter />
+
+      <h1>Menu</h1>
+      <Menu />
     </div>
   );
 }
