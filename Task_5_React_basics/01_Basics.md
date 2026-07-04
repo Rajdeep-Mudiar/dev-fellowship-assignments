@@ -105,3 +105,125 @@ JSX rules exist because JSX is JS, not HTML
 - self-closing tags? That's XML syntax
 - camelCase attributes? That's avoiding JS reserved words
 - curly braces? That's your gateway to all of JavaScript's power
+
+## Lec 8 --> Props
+
+Props is short for properties . Props are the way components talk to each other
+
+A parent component can pass data down to its children through props
+
+Eg:
+function Greet(name){
+return <h1>Hello, {props.name} </h1>
+}
+
+## Lec 9 --> Props Pattern
+
+1. Default Props
+   - The default value is only used if the prop is missing or if we pass undefined
+   - If we pull null or 0, the default value won't be used
+
+2. Forwarding props with spread operator
+
+3. Passing JSX as children
+   - In HTML, we know that it is natural to nest elements inside each other
+   - In React , we can do the exact same thing with components
+
+## Lec 10 --> Conditional Rendering
+
+Conditional Rendering is how we make our components show different content based on the different conditions
+Eg:
+
+- show a login button if the user isn't logged in
+- show their profile if they are logged in
+- show an error message only when there's an error
+
+### 4 ways of conditional rendering
+
+1. if statements --> Great for completely different renders or returning null
+2. Ternary operator(?:) --> Perfect for either/or situations
+3. AND operator(&&) --> Ideal for show/hide scenarios
+4. Variables --> Best for complex logic that would make your JSX messy
+5. Activity Component(React 19.2)
+
+## Lec 11 --> Rendering Lists
+
+A common scenario when building web applications is to display a list of items
+
+- a list of products in an e-commerce app
+- courses in a learning platform
+- comments on a blog posts
+
+To render a list of items in React, we need to take our data, put it in an array, and then transform that array into the HTML we need
+
+## Lec 12 --> Lists and Keys
+
+When we render a list of elements , we need to add a key prop to each element with a unique value within the list
+
+- If our data comes from a database, we can use the database keys/IDs, which are unique by nature .
+- If our data is created and persisted locally, use an incrementing counter , crypto.randomUUID() or a package like uuid
+
+### Rules of keys
+
+1. The key prop goes on the outermost repeated element
+2. key is a special prop that React uses internally. It's not a prop that we pass to a child component and destructure there to get access to it
+
+### Why does React need keys?
+
+Keys are used by React to track the items in the list . They're crucial for React to efficiently update the UI
+
+### Key Summary
+
+key is a prop that React uses internally to track items in the list . It needs to be unique within the list . The key prop goes on the outermost repeated element . Keys are crucial for React to efficiently update the UI
+
+## Lec 13 --> Index as Key Anti-Pattern
+
+### Using item index as key
+
+It's look clean , it's simple , and it makes that warning go away . But there's a reason this is considered an anti-pattern
+
+The problem with using index as a key is that the index represents the position and not the item itself . That can lead to subtle and confusing bugs when the order of the items changes in the list
+
+### When is it actually safe to use index as a key?
+
+1. Our items don't have a unique ID(if they do,always use that instead)
+2. The list is completely static - we never add or remove items
+3. The list is never recorded or filtered
+
+Ex: Navigation menu links
+
+If we ever see weird behaviour in our lists - like data jumping between items, inputs losing focus, or animations glitching - check your keys first
+
+## Lec 14 --> Styling React Components
+
+There are tons of CSS libraries out there
+Ex: Tailwind, styled components , emotion etc
+
+3 different ways to style components
+
+1. Inline Styles --> We don't write inline styles as a string . Instead , we use a JavaScript object . refer Alert.jsx
+2. External CSS files --> The classic way we've been styling websites for years . refer ExternalCSS.jsx
+3. CSS Modules --> CSS Modules give us the best of both worlds
+   - separate CSS files
+   - but with locally scoped classes
+
+## Lec 15 --> Event Handling
+
+How can we make React components respond to
+
+- clicks
+- hovers
+- keyboard input
+- other ways users interact with our apps
+
+Responding to events in React is a simple 2 step process
+
+1. We define a function that should be executed when the event occurs
+2. We assign the function to a special prop that with on
+
+React supports all the events from regular JS
+
+- onChange for Inputs
+- onSubmit for forms
+- onMouseEnter for hovering
+- etc
