@@ -300,3 +300,35 @@ If we answered yes to any of these , we need state
 React makes adding state to components super easy with something called hooks .
 Hooks are special functions that let us "hook into" React features.
 And the most important hook for managing state is called useState
+
+## Lec 18 --> useState Hook
+
+Counter.jsx , LoginCard.jsx
+
+### useState Hook
+
+When we call setCount
+
+1. React updates the state value
+2. React re-renders the component
+3. useState gives us the new value
+4. our UI shows the updated count
+
+### useState - lazy initialisation
+
+It is useful when we have any expensive computation we need to do to calculate the initial state
+
+- reading from local storage
+- fetching data from an API
+- doing any other heavy computation
+
+### Summary
+
+- To add state to a component , import useState from React and call it with an initial value
+- We can also pass a function to useState for lazy initialization
+- It returns an array with 2 items: [currentValue,setterFunction]
+- Use array destructuring to name them
+- Use the state value in our JSX
+- Call the setter function to update state and trigger a re-render
+- We can have multiple state variables , each managing its own data
+- Multiple instances of a component each have their own local state

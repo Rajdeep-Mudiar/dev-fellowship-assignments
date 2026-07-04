@@ -26,6 +26,7 @@ import { Contact } from "./Contact";
 import { NewsLetter } from "./Newsletter";
 import { Menu } from "./Menu";
 import { Counter } from "./Counter";
+import { LoginCard } from "./LoginCard";
 
 function App() {
   return (
@@ -139,6 +140,10 @@ function App() {
 
       <h1>Counter</h1>
       <Counter />
+      <Counter />
+
+      <h1>Login Card</h1>
+      <LoginCard />
     </div>
   );
 }

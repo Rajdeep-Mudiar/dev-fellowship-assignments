@@ -1,8 +1,16 @@
+import { useState } from "react";
+
 export const Counter = () => {
-  let count = 0;
+  // currentValue, setterFunction = useState(initialValue)
+  const [count, setCount] = useState(() => {
+    console.log("Counter initialized");
+    return 0;
+  });
+
+  console.log("Counter rendered with count:", count);
+
   const handleClick = () => {
-    count++;
-    console.log(count);
+    setCount(count + 1);
   };
   return (
     <div>
