@@ -332,3 +332,19 @@ It is useful when we have any expensive computation we need to do to calculate t
 - Call the setter function to update state and trigger a re-render
 - We can have multiple state variables , each managing its own data
 - Multiple instances of a component each have their own local state
+
+## Lec 19 --> Rules of Hooks
+
+UserDashboard.jsx
+
+### 2 goldern Rules of Hooks
+
+1. Only call hooks at the top level of our function .
+   - Not inside loops
+   - Not inside conditions
+   - Not inside nested functions
+   - not in try/catch blocks
+
+2. Only call hooks from React functions i.e,
+   - from React component
+   - or from custom hooks
