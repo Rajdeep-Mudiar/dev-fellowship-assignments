@@ -384,3 +384,87 @@ React takes the changes it calculated during the render phase and applies them t
 4. Our function returns new JSX with the updated count (render phase)
 5. React compares this render with the previous one and figures out what changed (render phase)
 6. React updates only what changed in the actual DOM (commit phase)
+
+## Lec 21 --> State as a Snapshot
+
+SimpleCounter.jsx
+
+### Trigger vs Render phase
+
+React simply marks the component for a re-render
+It doesn't stop our function halfway , re-render the component , and then jump back into our function
+Instead , React lets our entire event handler run from start to finish using the currrent state
+Only after the handler completed does React move on to the render phase and call our component again with the new value
+
+### State as a Snapshot
+
+In React , state updates are not immediate . When we call setState , we're scheduling an update for the next render . Inside our current render , the state values won't change . They're a snapshot , and snapshots don't change . If we log the count inside our event handler , we'll always get the same value . Think of it like taking a photo . Once we take the photo , the people in it don't move , even if the real people walk away . State in a render is like that photo - it's frozen at that moment in time .
+
+## Lec 22 --> setState using Previous State
+
+PrevStateCounter.jsx
+
+What we really want is for React to take the latest state at that moment , and build on top of it . For that , React lets us pass a function to the setter instead of a value
+
+### Passing value to setState
+
+setCount(count + 1) --> React takes the value we pass in and queues it --> Set count to 1
+setCount(count + 5 )--> React queues another value --> Set count to 5
+setCount(count + 10) --> React queues another value --> Set count to 10
+
+The last one wins , and count becomes 10
+
+### Passing function to setState
+
+setCount((prev)=>prev + 1) --> React does not run that function right away . It queues the function itself
+setCount((prev)=>prev + 5) --> React queues the function
+setCount((prev)=>prev + 10) --> React queues the function
+
+After our event handler finishes React goes through its list of updates and for each updated function it takes
+
+1. takes the current state value
+2. Passes it into the updater as prev
+3. uses the return value of the updater function as the next state value
+
+In our case it does something like this
+
+1. Start with prev=0
+2. First updater: return prev + 1 --> 1
+3. Second updater : now prev = 1 , return prev + 5 --> 6
+4. Third updater : now prev = 6 ,return prev + 10 --> 16
+
+Each updater uses the latest result from the previous one and not the snapshot from the event handler
+
+![alt text](image.png)
+
+### When to use Pass value nd when to use function
+
+If our new state depends on the previous state , use an updater function.
+
+- setCount((prev)=>prev + 1)
+- setCount((prev)=>prev \* 2)
+
+If we are just setting a value directly , the regular syntax is fine
+
+- setCount(5)
+- setCount("John")
+
+## Lec 23 --> How React Batches Updates
+
+BatchingCounter.jsx
+
+### Batching
+
+React
+
+- waits until our event handler finishes
+- gathers all our state updates
+- applies them in one render
+
+Eg: Waiter in a restaurent doesn't run to the kitchen every time we name a dish . They wait unti our entire table is done ordering . He takes the entire order to the kitchen at once
+
+## Lec 24 --> useState with Objects
+
+Usestate.jsx
+
+Always use the setter function to update state as changing the object directly won't trigger a re-render . Calling setState with an object replaces the entire object . To keep existing fields , always spread the old object first . For nested objects , spread both the outer object and the nested one .

@@ -28,6 +28,8 @@ import { Menu } from "./Menu";
 import { Counter } from "./Counter";
 import { LoginCard } from "./LoginCard";
 import { SimpleCounter } from "./SimpleCounter";
+import { PrevStateCounter } from "./PrevStateCounter";
+import { Usestate } from "./Usestate";
 
 function App() {
   return (
@@ -148,6 +150,12 @@ function App() {
 
       <h1>Simple Counter</h1>
       <SimpleCounter />
+
+      <h1>Prev State Counter</h1>
+      <PrevStateCounter />
+
+      <h1>UseState</h1>
+      <Usestate />
     </div>
   );
 }
