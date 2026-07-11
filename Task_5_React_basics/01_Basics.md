@@ -468,3 +468,95 @@ Eg: Waiter in a restaurent doesn't run to the kitchen every time we name a dish 
 Usestate.jsx
 
 Always use the setter function to update state as changing the object directly won't trigger a re-render . Calling setState with an object replaces the entire object . To keep existing fields , always spread the old object first . For nested objects , spread both the outer object and the nested one .
+
+## Lec 25 --> useState with Arrays
+
+TodoList2.jsx
+
+Summary
+
+- Always use the setter function to update state as changing the array directly won't trigger a re-render
+
+- spread operator or concat to add items
+
+- Filter to remove items
+
+- Map to update items
+
+## Lec 26 --> Sharing State Between Components
+
+ShoppingCart.jsx
+
+### Lifting State up
+
+When multiple components need the same data, we move the state to the closest common parent
+
+Summary
+
+When 2 or more components need the same changing data , lift the state up .
+
+Put that state in the closest common parent .
+
+The component with useState owns the data and controls how it changes .
+
+Children receive the state as props .
+
+Children request changes by calling setter functions passed down from the parent .
+
+## Lec 27 --> useReducer Hook
+
+The reduce() method is an iterative method . It runs a "reduced" callback function over all elements in the array , in ascending-index order, and accumulates them into a single value i.e, reduce takes many values and reduces them down to a single value.
+Eg: array.reduce(reducer,initialValue);
+array.reduce --> the reducer receives accumulator and currentValue
+
+React's useReducer hook uses the same core idea of a reducer function but applies it to state management instead of arrays.
+Eg: useReducer(reducer,initialState);
+useReducer --> The reducer receives state and action
+
+action --> Action is a way to describe what happened in our app . Think of it as a message saying
+"the user clicked this button "
+"this form was submitted"
+"add a new item to the list"
+
+The reducer looks at this action and decides how to update the state..
+
+### Array.reduce() vs useReducer()
+
+- The array.reduce() method returns a single value.
+- UseReducer returns an array with 2 items
+
+const [state,dispatch] = useReducer(reducer,initialState);
+
+- current state(just like with useState)
+- dispatch (a function to send actions to the reducer)
+
+Summary
+
+- useReducer is another hook for state management in React
+- The hook accepts 2 parameter : a reducer function, the initial state
+- The reducer function itself accepts 2 parameter: the current state, an action
+- Based on the inputs , it returns the new state and along with it, a dispatch function.
+- We call dispatch to trigger state updates
+
+## Lec 28 --> useReducer (simple state and action)
+
+### Action
+
+The reducer function accepts the current state and returns the new state
+
+But for this state transition to happen , we need something to tell the reducer what kind of transition to make
+
+That's exactly what the action parameter is for
+
+Think of action as an instruction to the reducer function
+
+Based on what the action specifies , the reducer performs the necessary state transition.
+
+### Summary
+
+- Action describe what happened
+- Dispatch sends those actions to the reducer
+- The reducer decides how to update state
+- The component re-renders with the new state
+
+## Lec 29 --> useReducer (complex state and actions)

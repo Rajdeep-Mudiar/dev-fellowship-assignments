@@ -30,6 +30,9 @@ import { LoginCard } from "./LoginCard";
 import { SimpleCounter } from "./SimpleCounter";
 import { PrevStateCounter } from "./PrevStateCounter";
 import { Usestate } from "./Usestate";
+import { TodoList2 } from "./TodoList2";
+import { ShoppingCart } from "./ShoppingCart";
+import { CounterWithReducer } from "./CounterWithReducer";
 
 function App() {
   return (
@@ -156,6 +159,15 @@ function App() {
 
       <h1>UseState</h1>
       <Usestate />
+
+      <h1>Todo List 2</h1>
+      <TodoList2 />
+
+      <h1>Shopping Cart</h1>
+      <ShoppingCart />
+
+      <h1>Counter with Reducer</h1>
+      <CounterWithReducer />
     </div>
   );
 }
