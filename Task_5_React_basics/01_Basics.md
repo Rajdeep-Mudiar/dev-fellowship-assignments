@@ -560,3 +560,10 @@ Based on what the action specifies , the reducer performs the necessary state tr
 - The component re-renders with the new state
 
 ## Lec 29 --> useReducer (complex state and actions)
+
+ShoppingCartWithReducer.jsx
+
+### Actions can be objects
+
+- type to describe what happened
+- payload to carry extra data , such as the product to add or remove
