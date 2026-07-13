@@ -31,7 +31,11 @@ class Navbar extends Component {
               </li>
             );
           })}
-          <button>Sign Up</button>
+          <li className="nav-cta-item">
+            <Link to="/signup" className="nav-cta">
+              Sign Up
+            </Link>
+          </li>
         </ul>
       </nav>
     );

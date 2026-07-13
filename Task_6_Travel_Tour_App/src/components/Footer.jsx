@@ -2,7 +2,7 @@ import "./FooterStyles.css";
 
 const Footer = () => {
   return (
-    <div className="Footer">
+    <div className="footer">
       <div className="top">
         <div>
           <h1>Trippy</h1>

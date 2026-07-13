@@ -1,70 +1,65 @@
-.form-container {
+.signup-container {
   margin: 4rem 6rem 5rem;
   color: var(--text-primary);
 }
 
-.contact-layout {
+.signup-layout {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: 0.9fr 1.1fr;
   gap: 2rem;
   align-items: start;
 }
 
-.form-copy {
+.signup-copy {
   text-align: left;
   padding: 2rem 0 0;
 }
 
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-bottom: 0.9rem;
-  padding: 0.45rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(1, 149, 154, 0.1);
-  color: var(--brand-dark);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.form-copy h1 {
+.signup-copy h1 {
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 1.05;
   margin-bottom: 1rem;
 }
 
-.section-text {
-  max-width: 32rem;
-  color: var(--text-secondary);
-  font-size: 1.05rem;
-  line-height: 1.8;
+.signup-points {
+  list-style: none;
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.85rem;
 }
 
-.contact-card {
+.signup-points li {
+  position: relative;
+  padding: 0.95rem 1rem 0.95rem 3rem;
+  border-radius: 18px;
+  background: rgba(1, 149, 154, 0.08);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.signup-points li::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+}
+
+.signup-card {
   padding: 2rem;
   background: var(--surface-strong);
   border: 1px solid var(--border);
   border-radius: 28px;
   box-shadow: var(--shadow);
-}
-
-.form-container form {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
-.field-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.form-container input,
-.form-container textarea {
+.signup-card input {
   width: 100%;
   padding: 1rem 1.05rem;
   margin-bottom: 1rem;
@@ -80,19 +75,13 @@
     transform 0.2s ease;
 }
 
-.form-container input:focus,
-.form-container textarea:focus {
+.signup-card input:focus {
   border-color: rgba(1, 149, 154, 0.45);
   box-shadow: 0 0 0 4px rgba(1, 149, 154, 0.12);
   transform: translateY(-1px);
 }
 
-.form-container textarea {
-  resize: vertical;
-  min-height: 180px;
-}
-
-.form-container button {
+.signup-card button {
   align-self: flex-start;
   padding: 0.95rem 1.6rem;
   border-radius: 999px;
@@ -102,27 +91,23 @@
 }
 
 @media screen and (max-width: 850px) {
-  .form-container {
+  .signup-container {
     margin: 4rem 2rem 5rem;
   }
 
-  .contact-layout {
+  .signup-layout {
     grid-template-columns: 1fr;
   }
 
-  .form-copy {
+  .signup-copy {
     padding-top: 0;
   }
 
-  .contact-card {
+  .signup-card {
     padding: 1.4rem;
   }
 
-  .field-row {
-    grid-template-columns: 1fr;
-  }
-
-  .form-container button {
+  .signup-card button {
     width: 100%;
     justify-content: center;
   }
