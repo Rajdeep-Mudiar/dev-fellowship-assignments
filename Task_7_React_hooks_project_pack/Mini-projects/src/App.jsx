@@ -1,6 +1,7 @@
 import Accordian from "../components/01_accordian";
 import RandomColor from "../components/02_random_color";
 import StarRating from "../components/03_star_rating";
+import ImageSlider from "../components/04_image_slider";
 import "./App.css";
 
 function App() {
@@ -8,14 +9,28 @@ function App() {
     <>
       <div className="App">
         {/* Accordion Component */}
+        <h1 style={{ textAlign: "center", padding: "50px" }}>Accordian</h1>
         <Accordian />
 
         {/* Random Color Component */}
+        <h1 style={{ textAlign: "center", padding: "50px" }}>
+          Random Color Generator
+        </h1>
         <RandomColor />
       </div>
 
       {/* Star Rating Component */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Star Rating</h1>
+
       <StarRating />
+
+      {/* Image Slider Component */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Image Slider</h1>
+      <ImageSlider
+        url={"https://picsum.photos/v2/list"}
+        page={"1"}
+        limit={"10"}
+      />
     </>
   );
 }
