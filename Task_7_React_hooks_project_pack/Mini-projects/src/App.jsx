@@ -1,4 +1,4 @@
-import Accordian from "../components/accordian";
+import Accordian from "../components/01_accordian";
 import "./App.css";
 
 function App() {
