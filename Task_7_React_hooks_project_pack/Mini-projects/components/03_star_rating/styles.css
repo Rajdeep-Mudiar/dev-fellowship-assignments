@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.star-rating {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(99, 110, 145, 0.15);
+}
+
+.star-rating svg {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.star-rating svg.active {
+  color: #ffc107;
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 8px rgba(255, 193, 7, 0.4));
+}
+
+.star-rating svg.inactive {
+  color: #d1d5db;
+  transform: scale(1);
+}
+
+.star-rating svg:hover {
+  transform: scale(1.15);
+}
+
+.star-rating svg.active:hover {
+  filter: drop-shadow(0 2px 12px rgba(255, 193, 7, 0.6));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .star-rating {
+    gap: 10px;
+    padding: 30px;
+  }
+
+  .star-rating svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .star-rating {
+    gap: 8px;
+    padding: 24px;
+  }
+
+  .star-rating svg {
+    width: 28px;
+    height: 28px;
+  }
+}
