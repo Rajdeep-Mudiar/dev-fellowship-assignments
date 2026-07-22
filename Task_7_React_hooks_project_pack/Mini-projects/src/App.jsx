@@ -2,6 +2,8 @@ import Accordian from "../components/01_accordian";
 import RandomColor from "../components/02_random_color";
 import StarRating from "../components/03_star_rating";
 import ImageSlider from "../components/04_image_slider";
+
+import LoadMoreData from "../components/05_load_more_data";
 import "./App.css";
 
 function App() {
@@ -31,6 +33,11 @@ function App() {
         page={"1"}
         limit={"10"}
       />
+
+      {/* Load More Data */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Load More Data</h1>
+
+      <LoadMoreData />
     </>
   );
 }
