@@ -18,9 +18,9 @@ export default function MenuItem({ item }) {
         {item && item.children && item.children.length ? (
           <span onClick={() => handleToggleChildren(item.label)}>
             {displayCurrentChildren[item.label] ? (
-              <FaMinus color="#fff" size={25} />
+              <FaMinus color="#4a90e2" size={20} />
             ) : (
-              <FaPlus color="#fff" size={25} />
+              <FaPlus color="#4a90e2" size={20} />
             )}
           </span>
         ) : null}

@@ -6,6 +6,9 @@ import ImageSlider from "../components/04_image_slider";
 import LoadMoreData from "../components/05_load_more_data";
 import TreeView from "../components/06_tree_view";
 import menus from "../components/06_tree_view/data";
+import QRCodeGenerator from "../components/07_qr_code_generator";
+import LightDarkMode from "../components/08_light_dark_theme";
+import ScrollIndicator from "../components/09_scroll_indicator";
 import "./App.css";
 
 function App() {
@@ -42,7 +45,24 @@ function App() {
       <LoadMoreData />
 
       {/* Tree View component/menu UI component */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Tree View</h1>
       <TreeView menus={menus} />
+
+      <h1 style={{ textAlign: "center", padding: "50px" }}>
+        QR Code Generator
+      </h1>
+
+      <QRCodeGenerator />
+
+      {/* Light Dark Theme */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Light Dark Theme</h1>
+
+      <LightDarkMode />
+
+      {/* Scroll Indicator */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Scroll Indicator</h1>
+
+      <ScrollIndicator url={"https://dummyjson.com/products?limit=100"} />
     </>
   );
 }

@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.theme-component-wrapper {
+  width: 100%;
+  max-width: 500px;
+  padding: 60px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(99, 110, 145, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.5s ease;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.theme-component-wrapper[data-theme="light"] {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+.theme-component-wrapper[data-theme="dark"] {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.theme-component-wrapper:hover {
+  box-shadow: 0 12px 40px rgba(99, 110, 145, 0.25);
+}
+
+.theme-component-wrapper h1 {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.theme-component-wrapper p {
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.theme-component-wrapper .toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+}
+
+.theme-component-wrapper .theme-label {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.theme-component-wrapper .toggle-btn {
+  width: 70px;
+  height: 36px;
+  background: #e2e8f0;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.theme-component-wrapper[data-theme="dark"] .toggle-btn {
+  background: #6366f1;
+}
+
+.theme-component-wrapper .toggle-btn:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+.theme-component-wrapper .toggle-btn .toggle-circle {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  left: 4px;
+}
+
+.theme-component-wrapper[data-theme="dark"] .toggle-btn .toggle-circle {
+  left: calc(100% - 32px);
+}
+
+.theme-component-wrapper .toggle-btn .toggle-icon {
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .theme-component-wrapper {
+    padding: 40px 24px;
+    gap: 30px;
+  }
+
+  .theme-component-wrapper h1 {
+    font-size: 28px;
+  }
+
+  .theme-component-wrapper p {
+    font-size: 14px;
+  }
+}
