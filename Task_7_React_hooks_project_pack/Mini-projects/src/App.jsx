@@ -10,6 +10,8 @@ import QRCodeGenerator from "../components/07_qr_code_generator";
 import LightDarkMode from "../components/08_light_dark_theme";
 import ScrollIndicator from "../components/09_scroll_indicator";
 import TabTest from "../components/10_custom_tabs/tab-test";
+
+import ModalTest from "../components/11_custom_modal_popup/modal-text";
 import "./App.css";
 
 function App() {
@@ -69,6 +71,13 @@ function App() {
       <h1 style={{ textAlign: "center", padding: "50px" }}>Custom Tabs</h1>
 
       <TabTest />
+
+      {/* Custom Modal Popup */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>
+        Custom Modal Popup
+      </h1>
+
+      <ModalTest />
     </>
   );
 }
