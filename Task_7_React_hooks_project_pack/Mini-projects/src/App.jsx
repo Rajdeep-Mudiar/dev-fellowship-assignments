@@ -9,6 +9,7 @@ import menus from "../components/06_tree_view/data";
 import QRCodeGenerator from "../components/07_qr_code_generator";
 import LightDarkMode from "../components/08_light_dark_theme";
 import ScrollIndicator from "../components/09_scroll_indicator";
+import TabTest from "../components/10_custom_tabs/tab-test";
 import "./App.css";
 
 function App() {
@@ -63,6 +64,11 @@ function App() {
       <h1 style={{ textAlign: "center", padding: "50px" }}>Scroll Indicator</h1>
 
       <ScrollIndicator url={"https://dummyjson.com/products?limit=100"} />
+
+      {/* Custom Tabs */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Custom Tabs</h1>
+
+      <TabTest />
     </>
   );
 }
