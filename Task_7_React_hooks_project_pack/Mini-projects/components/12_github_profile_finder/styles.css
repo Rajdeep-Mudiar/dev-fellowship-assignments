@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.github-profile-container {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 8px 32px rgba(99, 110, 145, 0.15);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.input-wrapper input {
+  flex: 1;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.input-wrapper button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4f46e5;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.input-wrapper button:hover {
+  background-color: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+}
+
+.user {
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.avatar {
+  height: 150px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 24px;
+  border: 4px solid #e2e8f0;
+}
+
+.name-container {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.name-container a {
+  color: #4f46e5;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.name-container a:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+.name-container p {
+  margin: 0;
+  font-size: 15px;
+  color: #64748b;
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.profile-info > div {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.profile-info > div p:first-child {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.profile-info > div p:last-child {
+  font-size: 24px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.error-state {
+  color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .github-profile-container {
+    padding: 16px;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+  }
+
+  .input-wrapper input,
+  .input-wrapper button {
+    width: 100%;
+  }
+
+  .profile-info {
+    grid-template-columns: 1fr;
+  }
+}

@@ -12,6 +12,8 @@ import ScrollIndicator from "../components/09_scroll_indicator";
 import TabTest from "../components/10_custom_tabs/tab-test";
 
 import ModalTest from "../components/11_custom_modal_popup/modal-text";
+
+import GithubProfileFinder from "../components/12_github_profile_finder/index";
 import "./App.css";
 
 function App() {
@@ -78,6 +80,13 @@ function App() {
       </h1>
 
       <ModalTest />
+
+      {/* GithubProfileFinder */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>
+        GithubProfileFinder
+      </h1>
+
+      <GithubProfileFinder />
     </>
   );
 }
