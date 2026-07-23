@@ -4,6 +4,8 @@ import StarRating from "../components/03_star_rating";
 import ImageSlider from "../components/04_image_slider";
 
 import LoadMoreData from "../components/05_load_more_data";
+import TreeView from "../components/06_tree_view";
+import menus from "../components/06_tree_view/data";
 import "./App.css";
 
 function App() {
@@ -38,6 +40,9 @@ function App() {
       <h1 style={{ textAlign: "center", padding: "50px" }}>Load More Data</h1>
 
       <LoadMoreData />
+
+      {/* Tree View component/menu UI component */}
+      <TreeView menus={menus} />
     </>
   );
 }
