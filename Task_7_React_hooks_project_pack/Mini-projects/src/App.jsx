@@ -14,6 +14,7 @@ import TabTest from "../components/10_custom_tabs/tab-test";
 import ModalTest from "../components/11_custom_modal_popup/modal-text";
 
 import GithubProfileFinder from "../components/12_github_profile_finder/index";
+import SearchAutoComplete from "../components/13_search_autocomplete_with_API";
 import "./App.css";
 
 function App() {
@@ -87,6 +88,12 @@ function App() {
       </h1>
 
       <GithubProfileFinder />
+      {/* Search Autocomplete with API */}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>
+        Search Autocomplete with API
+      </h1>
+
+      <SearchAutoComplete />
     </>
   );
 }
