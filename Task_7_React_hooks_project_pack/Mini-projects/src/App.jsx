@@ -15,6 +15,7 @@ import ModalTest from "../components/11_custom_modal_popup/modal-text";
 
 import GithubProfileFinder from "../components/12_github_profile_finder/index";
 import SearchAutoComplete from "../components/13_search_autocomplete_with_API";
+import Weather from "../components/14_Weather_App/weather";
 import "./App.css";
 
 function App() {
@@ -94,6 +95,10 @@ function App() {
       </h1>
 
       <SearchAutoComplete />
+
+      {/* Weather App*/}
+      <h1 style={{ textAlign: "center", padding: "50px" }}>Weather App</h1>
+      <Weather />
     </>
   );
 }
