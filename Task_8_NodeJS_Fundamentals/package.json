@@ -1,0 +1,16 @@
+{
+  "name": "task_8_nodejs_fundamentals",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --env-file=.env 10_crypto_module/02_cipher.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
