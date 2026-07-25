@@ -48,6 +48,7 @@ for (const folderName of [
   "Task_2_Javascript",
   "Task_3_Advanced JavaScript",
   "Task_4_FreeCodeCamp_certificate",
+  "Task_8_NodeJS_Fundamentals",
 ]) {
   await cp(resolve(rootDir, folderName), resolve(distDir, folderName), {
     recursive: true,
