@@ -141,6 +141,12 @@ h1 {
   height: 100%;
 }
 
+.block-desc {
+  margin-top: 0.15rem !important;
+  margin-bottom: 0.25rem !important;
+  font-size: 0.92rem !important;
+}
+
 .project-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
