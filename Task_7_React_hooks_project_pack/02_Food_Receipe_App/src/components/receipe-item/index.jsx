@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 
-export default function ReceipeItem(item) {
+export default function ReceipeItem({ item }) {
+  if (!item) return null;
   return (
-    <div className="flex flex-col w-80 overflow-hidden p-5 bg-white/75 shadow-xl gap-5 border-2 rounded-2xl border-white">
-      <div className="h-40 flex justify-center overflow-hidden items-center rounder-xl">
+    <div className="flex flex-col w-80 overflow-hidden p-5 bg-white/75 shadow-xl gap-5 border-2 rounded-2xl border-white hover:shadow-2xl transition-shadow duration-300">
+      <div className="h-40 flex justify-center overflow-hidden items-center rounded-xl">
         <img
           src={item?.image_url}
-          alt="receipe item "
-          className="block w-full"
+          alt={item?.title || "recipe item"}
+          className="block w-full h-full object-cover"
         />
       </div>
       <div>
@@ -19,10 +20,10 @@ export default function ReceipeItem(item) {
           {item?.title}
         </h3>
         <Link
-          to={`/receipe-item/${item?.id}`}
-          className="text-sm p-3 mt-5 px-8 rounded-lg uppercase font-medium tracking-wider inline-block shadow-md bg-black text-white"
+          to={`/recipe-item/${item?.id}`}
+          className="text-sm p-3 mt-5 px-8 rounded-lg uppercase font-medium tracking-wider inline-block shadow-md bg-black text-white hover:bg-gray-800 transition-colors duration-300"
         >
-          Receipe Details
+          Recipe Details
         </Link>
       </div>
     </div>

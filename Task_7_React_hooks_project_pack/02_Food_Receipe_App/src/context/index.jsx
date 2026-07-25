@@ -36,15 +36,16 @@ export default function GlobalState({ children }) {
 
   function handleAddToFavorite(getCurrentItem) {
     let cpyFavoritesList = [...favoritesList];
+    const currentId = getCurrentItem?.recipe?.id || getCurrentItem?.id;
+
     const index = cpyFavoritesList.findIndex(
-      (item) => item.id === getCurrentItem.id,
+      (item) => (item?.recipe?.id || item?.id) === currentId,
     );
 
-    // If not present push it to favorites if already present splice(remove) it
     if (index === -1) {
       cpyFavoritesList.push(getCurrentItem);
     } else {
-      cpyFavoritesList.splice(index);
+      cpyFavoritesList.splice(index, 1);
     }
 
     setFavoritesList(cpyFavoritesList);
@@ -55,6 +56,7 @@ export default function GlobalState({ children }) {
         searchParam,
         loading,
         receipeList,
+        receipeDetailsData,
         setSearchParam,
         handleSubmit,
         setReceipeDetailsData,
