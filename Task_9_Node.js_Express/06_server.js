@@ -2,10 +2,18 @@
 import express from "express";
 // const path = require("path");
 import path from "path";
+import { fileURLToPath } from "url";
+
 import posts from "./routes/posts.js";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
 import notFound from "./middleware/notFound.js";
+
+// Get the directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+console.log(__filename);
+
 // const posts = require("./routes/posts");
 const port = process.env.PORT || 8000;
 const app = express();
@@ -16,6 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Logger Middleware
 app.use(logger);
+
+// Setup static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api/posts", posts);
