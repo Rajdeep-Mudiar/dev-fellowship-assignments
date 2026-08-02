@@ -5,10 +5,10 @@ console.log(process.argv[3]);
 // process.env
 console.log(process.env);
 console.log(process.env.LOGNAME);
-// pid
+// pid --> to get the nodejs working process id
 console.log(process.pid);
 
-// cwd()
+// cwd() --> to get the current working directory
 console.log(process.cwd());
 
 // title
@@ -17,7 +17,7 @@ console.log(process.title);
 // memoryUsage()
 console.log(process.memoryUsage());
 
-// update()
+// uptime()
 console.log(process.uptime());
 
 process.on("exit", (code) => {
