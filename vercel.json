@@ -3,20 +3,20 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/Task_5_React_basics/02_Task_Counter/dist/:path*",
-      "destination": "/Task_5_React_basics/02_Task_Counter/dist/index.html"
+      "source": "/Task_05_React_basics/02_Task_Counter/dist/:path*",
+      "destination": "/Task_05_React_basics/02_Task_Counter/dist/index.html"
     },
     {
-      "source": "/Task_6_Travel_Tour_App/dist/:path*",
-      "destination": "/Task_6_Travel_Tour_App/dist/index.html"
+      "source": "/Task_06_Travel_Tour_App/dist/:path*",
+      "destination": "/Task_06_Travel_Tour_App/dist/index.html"
     },
     {
-      "source": "/Task_7_React_hooks_project_pack/01_Mini-projects/dist/:path*",
-      "destination": "/Task_7_React_hooks_project_pack/01_Mini-projects/dist/index.html"
+      "source": "/Task_07_React_hooks_project_pack/01_Mini-projects/dist/:path*",
+      "destination": "/Task_07_React_hooks_project_pack/01_Mini-projects/dist/index.html"
     },
     {
-      "source": "/Task_7_React_hooks_project_pack/02_Food_Receipe_App/dist/:path*",
-      "destination": "/Task_7_React_hooks_project_pack/02_Food_Receipe_App/dist/index.html"
+      "source": "/Task_07_React_hooks_project_pack/02_Food_Receipe_App/dist/:path*",
+      "destination": "/Task_07_React_hooks_project_pack/02_Food_Receipe_App/dist/index.html"
     },
     {
       "source": "/Task_10_MERN_CRUD_integration/client/dist/:path*",
