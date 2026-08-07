@@ -1,26 +1,23 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { api } from "./api";
 
 function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001")
-      .then((result) => setUsers(result.data))
+    api.getUsers()
+      .then((data) => setUsers(data || []))
       .catch((err) => console.log(err));
   }, []);
 
   const handleDelete = (id) => {
-    axios
-      .delete("http://localhost:3001/deleteUser/" + id)
+    api.deleteUser(id)
       .then((res) => {
         console.log(res);
         window.location.reload();
       })
-
       .catch((err) => console.log(err));
   };
   return (

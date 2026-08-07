@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import axios from "axios";
+import { api } from "./api";
 
 function UpdateUser() {
   const { id } = useParams();
@@ -10,28 +10,27 @@ function UpdateUser() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/getUser/" + id)
+    api.getUser(id)
       .then((result) => {
         console.log(result);
-        setName(result.data.name);
-        setEmail(result.data.email);
-        setAge(result.data.age);
+        if (result) {
+          setName(result.name);
+          setEmail(result.email);
+          setAge(result.age);
+        }
       })
       .catch((err) => console.log(err));
   }, []);
 
   const Update = (e) => {
     e.preventDefault();
-    axios
-      .put("http://localhost:3001/updateUser/" + id, { name, email, age })
+    api.updateUser(id, { name, email, age })
       .then((result) => {
         console.log(result);
 
         // Used to move back to the home page after click on submit in add user page
         navigate("/");
       })
-
       .catch((err) => console.log(err));
   };
   return (
