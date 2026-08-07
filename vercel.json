@@ -17,6 +17,10 @@
     {
       "source": "/Task_7_React_hooks_project_pack/02_Food_Receipe_App/dist/:path*",
       "destination": "/Task_7_React_hooks_project_pack/02_Food_Receipe_App/dist/index.html"
+    },
+    {
+      "source": "/Task_10_MERN_CRUD_integration/client/dist/:path*",
+      "destination": "/Task_10_MERN_CRUD_integration/client/dist/index.html"
     }
   ]
 }
