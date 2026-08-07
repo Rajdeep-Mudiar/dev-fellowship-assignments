@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 function UpdateUser() {
@@ -35,41 +35,60 @@ function UpdateUser() {
       .catch((err) => console.log(err));
   };
   return (
-    <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
-      <div className="w-50 bg-white rounded p-3">
+    <div className="app-container">
+      {/* Decorative glow dots */}
+      <div className="glow-dot glow-dot-1"></div>
+      <div className="glow-dot glow-dot-2"></div>
+
+      <div className="glass-panel" style={{ maxWidth: '550px' }}>
         <form action="" onSubmit={Update}>
-          <h2>Update User</h2>
-          <div className="mb-2">
-            <label htmlFor="">Name</label>
+          <h2 className="panel-title">Update User</h2>
+          <p className="panel-subtitle">Edit the details of the selected workspace member</p>
+          
+          <div className="form-group">
+            <label className="form-label">Name</label>
             <input
               type="text"
-              placeholder="Enter Name"
-              className="form-control"
-              value={name}
+              placeholder="Enter name"
+              className="custom-input"
+              value={name || ""}
+              required
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="mb-2">
-            <label htmlFor="">Email</label>
+          
+          <div className="form-group">
+            <label className="form-label">Email Address</label>
             <input
               type="email"
-              placeholder="Enter Email"
-              className="form-control"
-              value={email}
+              placeholder="Enter email address"
+              className="custom-input"
+              value={email || ""}
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mb-2">
-            <label htmlFor="">Age</label>
+          
+          <div className="form-group">
+            <label className="form-label">Age</label>
             <input
-              type="text"
-              placeholder="Enter Age"
-              className="form-control"
-              value={age}
+              type="number"
+              placeholder="Enter age"
+              className="custom-input"
+              value={age || ""}
+              required
               onChange={(e) => setAge(e.target.value)}
             />
           </div>
-          <button className="btn btn-success">Update</button>
+
+          <div className="form-actions">
+            <Link to="/" className="btn-premium btn-premium-secondary">
+              Cancel
+            </Link>
+            <button type="submit" className="btn-premium btn-premium-primary">
+              Update User
+            </button>
+          </div>
         </form>
       </div>
     </div>
