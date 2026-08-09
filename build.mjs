@@ -10,6 +10,7 @@ const task6Dir = resolve(rootDir, "Task_06_Travel_Tour_App");
 const task7MiniDir = resolve(rootDir, "Task_07_React_hooks_project_pack", "01_Mini-projects");
 const task7FoodDir = resolve(rootDir, "Task_07_React_hooks_project_pack", "02_Food_Receipe_App");
 const task10ClientDir = resolve(rootDir, "Task_10_MERN_CRUD_integration", "client");
+const task11ClientDir = resolve(rootDir, "Task_11_MERN_Auth_CRUD", "client");
 const npmCommand = process.platform === "win32" ? "cmd.exe" : "npm";
 const npmArgs =
   process.platform === "win32"
@@ -52,6 +53,7 @@ for (const folderName of [
   "Task_08_NodeJS_Fundamentals",
   "Task_09_Node.js_Express",
   "Task_10_MERN_CRUD_integration",
+  "Task_11_MERN_Auth_CRUD",
 ]) {
   await cp(resolve(rootDir, folderName), resolve(distDir, folderName), {
     recursive: true,
@@ -63,6 +65,7 @@ await run(npmCommand, npmArgs, task6Dir);
 await run(npmCommand, npmArgs, task7MiniDir);
 await run(npmCommand, npmArgs, task7FoodDir);
 await run(npmCommand, npmArgs, task10ClientDir);
+await run(npmCommand, npmArgs, task11ClientDir);
 
 await cp(
   resolve(task5Dir, "dist"),
@@ -91,5 +94,11 @@ await cp(
 await cp(
   resolve(task10ClientDir, "dist"),
   resolve(distDir, "Task_10_MERN_CRUD_integration", "client", "dist"),
+  { recursive: true },
+);
+
+await cp(
+  resolve(task11ClientDir, "dist"),
+  resolve(distDir, "Task_11_MERN_Auth_CRUD", "client", "dist"),
   { recursive: true },
 );

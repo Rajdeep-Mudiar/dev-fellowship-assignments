@@ -21,6 +21,10 @@
     {
       "source": "/Task_10_MERN_CRUD_integration/client/dist/:path*",
       "destination": "/Task_10_MERN_CRUD_integration/client/dist/index.html"
+    },
+    {
+      "source": "/Task_11_MERN_Auth_CRUD/client/dist/:path*",
+      "destination": "/Task_11_MERN_Auth_CRUD/client/dist/index.html"
     }
   ]
 }
