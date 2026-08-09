@@ -64,14 +64,16 @@ function ResetPassword() {
 
   const onSubmitNewPassword = async (e) => {
     e.preventDefault();
-    try{
-      const {data} = await axios.post(backendUrl + '/api/auth/reset-password'.{email,otp,newPassword})
-      data.success ? toast.success(data.message):toast.error(data.message)
+    try {
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/reset-password",
+        { email, otp, newPassword },
+      );
+      data.success ? toast.success(data.message) : toast.error(data.message);
 
-      data.success && navigate('/login')
-    }
-    catch(error){
-      toast.error(error.message)
+      data.success && navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
     }
   };
   return (
@@ -152,7 +154,10 @@ function ResetPassword() {
 
       {/* Enter new password */}
       {isOtpSubmited && isEmailSent && (
-        <form onSubmit={onSubmitNewPassword} className="bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm">
+        <form
+          onSubmit={onSubmitNewPassword}
+          className="bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm"
+        >
           <h1 className="text-white text-2xl font-semibold text-center mb-4">
             New password
           </h1>

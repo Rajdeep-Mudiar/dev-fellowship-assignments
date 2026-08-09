@@ -3,7 +3,7 @@ import { assets } from "../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import { AppContent } from "../context/AppContext";
 function EmailVerify() {
   axios.defaults.withCredentials = true;
   const { backendUrl, isLoggedin, userData, getUserData } =
