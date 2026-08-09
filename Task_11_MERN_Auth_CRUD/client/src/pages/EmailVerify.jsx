@@ -11,7 +11,7 @@ function EmailVerify() {
 
   const navigate = useNavigate();
 
-  const inputRefs = React.useRef();
+  const inputRefs = React.useRef([]);
 
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
@@ -55,7 +55,7 @@ function EmailVerify() {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(data.message);
+      toast.error(error.message);
     }
   };
 

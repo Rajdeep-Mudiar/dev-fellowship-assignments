@@ -18,7 +18,7 @@ export const AppContextProvider = (props) => {
 
       if (data.success) {
         setIsLoggedin(true);
-        getUserData;
+        getUserData();
       }
     } catch (error) {
       toast.error(error.message);
@@ -31,7 +31,7 @@ export const AppContextProvider = (props) => {
 
       data.success ? setUserData(data.userData) : toast.error(data.message);
     } catch (error) {
-      toast.error(data.message);
+      toast.error(error.message);
     }
   };
 

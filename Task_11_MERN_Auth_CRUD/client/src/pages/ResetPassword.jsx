@@ -3,6 +3,7 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { AppContent } from "../context/AppContext";
 
 function ResetPassword() {
   const { backendUrl } = useContext(AppContent);
@@ -14,7 +15,7 @@ function ResetPassword() {
   const [otp, setOtp] = useState(0);
   const [isOtpSubmited, setIsOtpSubmited] = useState(false);
 
-  const inputRefs = React.useRef();
+  const inputRefs = React.useRef([]);
 
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {

@@ -128,33 +128,33 @@ export const sendVerifyOtp = async (req, res) => {
 
     if (user.isAccountVerified) {
       return res.json({ success: false, message: "Account already verified" });
-
-      // To generate 6 digit OTP we will use random function
-      const otp = String(Math.floor(100000 + Math.random() * 900000));
-
-      user.verifyOtp = otp;
-
-      // OTP expires after one day
-      user.verifyOtpExpireAt = date.now() + 24 * 60 * 60 * 1000;
-
-      await user.save();
-
-      // Send OTP to user in mail
-      const mailOption = {
-        from: process.env.SENDER_EMAIL,
-        to: user.email,
-        subject: "Account Verification OTP",
-        text: `Your OTP is ${otp}. Verify your account using this OTP`,
-        html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace(
-          "{{email}}",
-          user.email,
-        ),
-      };
-
-      await transporter.sendMail(mailOption);
-
-      res.json({ success: true, message: "Verfication OTP sent on email" });
     }
+
+    // To generate 6 digit OTP we will use random function
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+    user.verifyOtp = otp;
+
+    // OTP expires after one day
+    user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
+
+    await user.save();
+
+    // Send OTP to user in mail
+    const mailOption = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "Account Verification OTP",
+      text: `Your OTP is ${otp}. Verify your account using this OTP`,
+      html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace(
+        "{{email}}",
+        user.email,
+      ),
+    };
+
+    await transporter.sendMail(mailOption);
+
+    res.json({ success: true, message: "Verfication OTP sent on email" });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -222,7 +222,7 @@ export const sendResetOtp = async (req, res) => {
     user.resetOtp = otp;
 
     // OTP expires after 15 mins
-    user.resetOtpExpireAt = date.now() + 15 * 60 * 1000;
+    user.resetOtpExpireAt = Date.now() + 15 * 60 * 1000;
 
     await user.save();
 
