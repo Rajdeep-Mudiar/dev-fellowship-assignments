@@ -39,4 +39,8 @@ app.use("/api/user", userRouter);
 // /api/note
 app.use("/api/note", noteRouter);
 
-app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+if (!process.env.VERCEL) {
+  app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+}
+
+export default app;
