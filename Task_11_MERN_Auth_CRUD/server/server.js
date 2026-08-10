@@ -23,11 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.includes('vercel.app')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    // Dynamically allow the requesting origin to support any deployment/custom domains
+    callback(null, true);
   },
   credentials: true
 }));
