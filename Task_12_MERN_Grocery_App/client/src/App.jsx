@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import AuthModal from "./components/AuthModal";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -64,7 +63,6 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                 </Routes>
               </main>
-              <Footer />
             </>
           }
         />
