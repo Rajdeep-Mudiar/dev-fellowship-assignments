@@ -11,6 +11,7 @@ const task7MiniDir = resolve(rootDir, "Task_07_React_hooks_project_pack", "01_Mi
 const task7FoodDir = resolve(rootDir, "Task_07_React_hooks_project_pack", "02_Food_Receipe_App");
 const task10ClientDir = resolve(rootDir, "Task_10_MERN_CRUD_integration", "client");
 const task11ClientDir = resolve(rootDir, "Task_11_MERN_Auth_CRUD", "client");
+const task12ClientDir = resolve(rootDir, "Task_12_MERN_Grocery_App", "client");
 const npmCommand = process.platform === "win32" ? "cmd.exe" : "npm";
 const npmArgs =
   process.platform === "win32"
@@ -54,9 +55,11 @@ for (const folderName of [
   "Task_09_Node.js_Express",
   "Task_10_MERN_CRUD_integration",
   "Task_11_MERN_Auth_CRUD",
+  "Task_12_MERN_Grocery_App",
 ]) {
   await cp(resolve(rootDir, folderName), resolve(distDir, folderName), {
     recursive: true,
+    filter: (src) => !src.includes("node_modules"),
   });
 }
 
@@ -66,6 +69,7 @@ await run(npmCommand, npmArgs, task7MiniDir);
 await run(npmCommand, npmArgs, task7FoodDir);
 await run(npmCommand, npmArgs, task10ClientDir);
 await run(npmCommand, npmArgs, task11ClientDir);
+await run(npmCommand, npmArgs, task12ClientDir);
 
 await cp(
   resolve(task5Dir, "dist"),
@@ -102,3 +106,10 @@ await cp(
   resolve(distDir, "Task_11_MERN_Auth_CRUD", "client", "dist"),
   { recursive: true },
 );
+
+await cp(
+  resolve(task12ClientDir, "dist"),
+  resolve(distDir, "Task_12_MERN_Grocery_App", "client", "dist"),
+  { recursive: true },
+);
+console.log("Full Fellowship build completed successfully!");
