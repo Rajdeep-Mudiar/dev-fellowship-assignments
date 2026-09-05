@@ -3,6 +3,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/api/grocery/:path*",
+      "destination": "/api/grocery.js"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/index.js"
     },
@@ -29,6 +33,10 @@
     {
       "source": "/Task_11_MERN_Auth_CRUD/client/dist/:path*",
       "destination": "/Task_11_MERN_Auth_CRUD/client/dist/index.html"
+    },
+    {
+      "source": "/Task_12_MERN_Grocery_App/client/dist/:path*",
+      "destination": "/Task_12_MERN_Grocery_App/client/dist/index.html"
     }
   ]
 }

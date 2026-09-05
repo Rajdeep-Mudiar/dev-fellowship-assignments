@@ -1,88 +1,94 @@
-# 🚀 GreenCart Deployment & Production Setup Guide
+# 🚀 GreenCart Vercel & Cloud Deployment Guide
 
-This guide provides end-to-end instructions for deploying the **GreenCart MERN Grocery Delivery App** across cloud platforms.
+This guide provides step-by-step instructions to deploy the **GreenCart Grocery Delivery Web App** to Vercel and other cloud providers.
 
 ---
 
-## 1. Frontend Deployment (Vercel)
+## 1. Deploying to Vercel (Monorepo Setup)
 
-### Option A: Using Vercel CLI
-1. Open terminal inside the `client` directory:
+The repository root is pre-configured with `vercel.json` to build and serve the entire Fellowship hub and all full-stack tasks automatically.
+
+### Automated Monorepo Deploy
+1. Push your repository to **GitHub**:
    ```bash
-   cd Task_12_MERN_Grocery_App/client
-   npm install -g vercel
-   vercel
+   git add .
+   git commit -m "Add Task 12 GreenCart MERN Grocery App with Vercel deploy configuration"
+   git push origin main
    ```
-2. Follow the interactive prompts:
-   - Framework Preset: `Vite`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-3. In your Vercel Project Dashboard, navigate to **Settings ➔ Environment Variables** and add:
+2. In your [Vercel Dashboard](https://vercel.com/dashboard):
+   - Click **Add New ➔ Project**.
+   - Import your `dev-fellowship-assignments` repository.
+   - Leave the **Root Directory** as `./`.
+   - The build command `npm run build` and output directory `dist` are automatically picked up from `vercel.json`.
+3. Add Environment Variables under **Project Settings ➔ Environment Variables**:
    ```env
-   VITE_BACKEND_URL=https://your-backend-service.onrender.com/api
+   MONGODB_URI=mongodb+srv://...
+   JWT_SECRET=your_jwt_secret_key
+   ADMIN_EMAIL=seller@greencart.com
+   ADMIN_PASSWORD=seller123
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   CLOUDINARY_NAME=your_cloudinary_name
+   CLOUDINARY_API_KEY=your_cloudinary_key
+   CLOUDINARY_API_SECRET=your_cloudinary_secret
    ```
-4. Redeploy with `vercel --prod`.
+4. Click **Deploy**.
+5. Once deployed, access the app live at:
+   - **Showcase Hub**: `https://your-domain.vercel.app/`
+   - **Task 12 GreenCart**: `https://your-domain.vercel.app/Task_12_MERN_Grocery_App/client/dist/index.html`
+   - **Backend API**: `https://your-domain.vercel.app/api/grocery`
 
 ---
 
-## 2. Backend Deployment (Render / Railway)
+## 2. Deploying Task 12 as a Standalone Vercel Project
 
-### Deploying to Render.com
-1. Push your repository to GitHub.
-2. Sign in to [Render.com](https://render.com) and click **New ➔ Web Service**.
-3. Connect your repository and select the root or specify the directory:
+If you prefer to deploy **Task 12** as an independent standalone website:
+
+1. In the Vercel Dashboard, import the repository and set:
+   - **Root Directory**: `Task_12_MERN_Grocery_App`
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `cd client && npm install && npm run build`
+   - **Output Directory**: `client/dist`
+2. Add the environment variables (`MONGODB_URI`, `JWT_SECRET`, `STRIPE_SECRET_KEY`, `CLOUDINARY_...`).
+3. Click **Deploy**.
+
+---
+
+## 3. Dedicated Backend Hosting (Render.com / Railway)
+
+If hosting the backend service permanently with WebSockets or long-running workers:
+
+1. Create a **New Web Service** on [Render.com](https://render.com).
+2. Set:
    - **Root Directory**: `Task_12_MERN_Grocery_App/server`
-   - **Runtime**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
-4. Add the following **Environment Variables** in Render:
-   | Variable | Value |
-   | :--- | :--- |
-   | `NODE_ENV` | `production` |
-   | `PORT` | `8000` |
-   | `MONGODB_URI` | `mongodb+srv://...` |
-   | `JWT_SECRET` | `your_long_random_jwt_secret` |
-   | `ADMIN_EMAIL` | `seller@greencart.com` |
-   | `ADMIN_PASSWORD` | `your_secure_seller_password` |
-   | `STRIPE_SECRET_KEY` | `sk_live_...` or `sk_test_...` |
-   | `STRIPE_WEBHOOK_SECRET` | `whsec_...` |
-   | `CLOUDINARY_NAME` | `your_cloudinary_name` |
-   | `CLOUDINARY_API_KEY` | `your_cloudinary_key` |
-   | `CLOUDINARY_API_SECRET` | `your_cloudinary_secret` |
-   | `FRONTEND_URL` | `https://your-frontend.vercel.app` |
+3. Add environment variables:
+   ```env
+   NODE_ENV=production
+   PORT=8000
+   MONGODB_URI=mongodb+srv://...
+   JWT_SECRET=your_jwt_secret
+   ADMIN_EMAIL=seller@greencart.com
+   ADMIN_PASSWORD=seller123
+   STRIPE_SECRET_KEY=sk_live_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   CLOUDINARY_NAME=your_cloudinary_name
+   CLOUDINARY_API_KEY=your_cloudinary_key
+   CLOUDINARY_API_SECRET=your_cloudinary_secret
+   FRONTEND_URL=https://your-frontend.vercel.app
+   ```
 
 ---
 
-## 3. Stripe Payments & Webhooks Configuration
+## 4. Stripe Webhook Configuration for Live Payments
 
-1. Log in to your [Stripe Dashboard](https://dashboard.stripe.com/).
-2. Navigate to **Developers ➔ API Keys** and copy:
-   - Publishable key (Client)
-   - Secret key (Server `STRIPE_SECRET_KEY`)
-3. Navigate to **Developers ➔ Webhooks**:
-   - Click **Add endpoint**
-   - **Endpoint URL**: `https://your-backend.onrender.com/api/order/stripe-webhook`
-   - **Select events**:
-     - `checkout.session.completed`
-     - `payment_intent.succeeded`
-   - Copy the generated **Signing Secret** (`whsec_...`) and paste it into `STRIPE_WEBHOOK_SECRET` in your backend `.env`.
-
-### Local Webhook Testing with Stripe CLI
-To test webhooks on localhost:
-```bash
-stripe login
-stripe listen --forward-to localhost:8000/api/order/stripe-webhook
-```
-Copy the webhook signing secret provided in terminal output into your local `server/.env`.
-
----
-
-## 4. Cloudinary Cloud Media Setup
-
-1. Sign up for a free account on [Cloudinary](https://cloudinary.com/).
-2. Go to your **Cloudinary Dashboard ➔ Product Environment Settings**.
-3. Copy your:
-   - **Cloud Name** (`CLOUDINARY_NAME`)
-   - **API Key** (`CLOUDINARY_API_KEY`)
-   - **API Secret** (`CLOUDINARY_API_SECRET`)
-4. Add these 3 values to your backend environment variables. All product image uploads from the Seller Portal will be uploaded directly to your Cloudinary `greencart_products` media bucket.
+1. Open your [Stripe Dashboard](https://dashboard.stripe.com/).
+2. Navigate to **Developers ➔ Webhooks ➔ Add Endpoint**.
+3. Set the endpoint URL:
+   - For Vercel: `https://your-vercel-domain.vercel.app/api/grocery/order/stripe-webhook`
+   - For Render: `https://your-render-domain.onrender.com/api/order/stripe-webhook`
+4. Select events:
+   - `checkout.session.completed`
+   - `payment_intent.succeeded`
+5. Copy the **Signing Secret** (`whsec_...`) and add it to your environment variables as `STRIPE_WEBHOOK_SECRET`.

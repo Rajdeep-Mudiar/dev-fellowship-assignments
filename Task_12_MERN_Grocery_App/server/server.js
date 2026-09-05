@@ -65,6 +65,13 @@ app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
 
+// Monorepo Serverless Route Handlers
+app.use("/api/grocery/auth", authRouter);
+app.use("/api/grocery/product", productRouter);
+app.use("/api/grocery/cart", cartRouter);
+app.use("/api/grocery/address", addressRouter);
+app.use("/api/grocery/order", orderRouter);
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error("Express Error:", err.stack);
