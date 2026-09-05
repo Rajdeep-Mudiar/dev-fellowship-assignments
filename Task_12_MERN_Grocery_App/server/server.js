@@ -1,6 +1,14 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+dotenv.config();
+
 import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 import { connectCloudinary } from "./config/cloudinary.js";
@@ -44,6 +52,16 @@ app.use(
     credentials: true,
   })
 );
+
+// Ensure DB is connected for serverless invocations
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error("DB connection error in request middleware:", err.message);
+  }
+  next();
+});
 
 // Health Check & Base Routes
 app.get("/", (req, res) => {

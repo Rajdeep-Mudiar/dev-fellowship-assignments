@@ -1,12 +1,32 @@
 import axios from "axios";
 
 // Determine backend URL dynamically
-export const BACKEND_URL =
-  import.meta.env.VITE_BACKEND_URL ||
-  (typeof window !== "undefined" &&
-  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-    ? "http://localhost:8000/api"
-    : "/api/grocery");
+export const getBackendUrl = () => {
+  // If a full remote URL is provided in env (e.g. deployed backend URL)
+  if (
+    import.meta.env.VITE_BACKEND_URL &&
+    !import.meta.env.VITE_BACKEND_URL.includes("localhost")
+  ) {
+    return import.meta.env.VITE_BACKEND_URL;
+  }
+
+  // Runtime browser check: on Vercel / production cloud domains
+  if (typeof window !== "undefined" && window.location) {
+    const hostname = window.location.hostname;
+    if (
+      hostname &&
+      hostname !== "localhost" &&
+      hostname !== "127.0.0.1" &&
+      !hostname.startsWith("192.168.")
+    ) {
+      return "/api/grocery";
+    }
+  }
+
+  return "http://localhost:8000/api";
+};
+
+export const BACKEND_URL = getBackendUrl();
 
 const api = axios.create({
   baseURL: BACKEND_URL,

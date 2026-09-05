@@ -20,16 +20,8 @@ const connectDB = async () => {
       return;
     }
 
-    let connectionString = uri;
-    if (!uri.includes("/greencart-grocery")) {
-      if (uri.includes("?")) {
-        connectionString = uri.replace("?", "/greencart-grocery?");
-      } else {
-        connectionString = `${uri.replace(/\/$/, "")}/greencart-grocery`;
-      }
-    }
-
-    await mongoose.connect(connectionString, {
+    await mongoose.connect(uri, {
+      dbName: "greencart-grocery",
       serverSelectionTimeoutMS: 5000,
     });
   } catch (error) {
