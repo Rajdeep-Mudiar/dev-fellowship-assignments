@@ -37,8 +37,9 @@ const productSchema = new mongoose.Schema(
       default: "1 unit",
     },
     sellerId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.Mixed,
       ref: "User",
+      default: null,
     },
   },
   { timestamps: true }

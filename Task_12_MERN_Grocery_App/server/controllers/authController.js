@@ -110,7 +110,10 @@ export const sellerLogin = async (req, res) => {
     const adminPassword = process.env.ADMIN_PASSWORD || "seller123";
 
     if (email === adminEmail && password === adminPassword) {
-      const token = jwt.sign({ id: "admin_seller_id", role: "seller" }, process.env.JWT_SECRET || "default_jwt_secret_key", {
+      let sellerUser = await User.findOne({ email: adminEmail.toLowerCase().trim() });
+      const sellerId = sellerUser ? sellerUser._id.toString() : "admin_seller_id";
+
+      const token = jwt.sign({ id: sellerId, role: "seller" }, process.env.JWT_SECRET || "default_jwt_secret_key", {
         expiresIn: "7d",
       });
 
@@ -119,7 +122,7 @@ export const sellerLogin = async (req, res) => {
         message: "Seller portal access authorized",
         token,
         seller: {
-          id: "admin_seller_id",
+          id: sellerId,
           name: "GreenCart Official Seller",
           email: adminEmail,
           role: "seller",

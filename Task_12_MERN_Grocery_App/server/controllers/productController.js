@@ -1,18 +1,45 @@
 import Product from "../models/Product.js";
 import { cloudinary } from "../config/cloudinary.js";
 
-// Helper to upload memory buffer to Cloudinary
-const uploadBufferToCloudinary = (buffer) => {
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: "greencart_products", resource_type: "image" },
-      (error, result) => {
-        if (error) reject(error);
-        else resolve(result.secure_url);
-      }
-    );
-    uploadStream.end(buffer);
-  });
+const CATEGORY_DEFAULT_IMAGES = {
+  Vegetables: "https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=600&q=80",
+  Fruits: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=600&q=80",
+  Dairy: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=600&q=80",
+  Drinks: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+  Instant: "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80",
+  Bakery: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80",
+  Grains: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+};
+
+// Helper to upload memory buffer to Cloudinary with safe fallback
+const uploadBufferToCloudinary = async (buffer, mimetype = "image/jpeg") => {
+  const isCloudinaryConfigured =
+    process.env.CLOUDINARY_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET &&
+    !process.env.CLOUDINARY_NAME.includes("cloud") &&
+    !process.env.CLOUDINARY_API_SECRET.includes("sample");
+
+  if (!isCloudinaryConfigured) {
+    return `data:${mimetype};base64,${buffer.toString("base64")}`;
+  }
+
+  try {
+    const url = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: "greencart_products", resource_type: "image" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result.secure_url);
+        }
+      );
+      uploadStream.end(buffer);
+    });
+    return url;
+  } catch (err) {
+    console.warn("Cloudinary upload notice, using base64 storage:", err.message);
+    return `data:${mimetype};base64,${buffer.toString("base64")}`;
+  }
 };
 
 // Add New Product (Seller)
@@ -28,14 +55,13 @@ export const addProduct = async (req, res) => {
 
     // Check if files uploaded via Multer
     if (req.files && req.files.length > 0) {
-      if (process.env.CLOUDINARY_NAME && process.env.CLOUDINARY_API_KEY) {
-        for (const file of req.files) {
-          const url = await uploadBufferToCloudinary(file.buffer);
+      for (const file of req.files) {
+        try {
+          const url = await uploadBufferToCloudinary(file.buffer, file.mimetype || "image/jpeg");
           images.push(url);
+        } catch (e) {
+          images.push(`data:${file.mimetype || "image/jpeg"};base64,${file.buffer.toString("base64")}`);
         }
-      } else {
-        // Fallback placeholder data URL if Cloudinary keys are not provided
-        images = req.files.map((file) => `data:${file.mimetype};base64,${file.buffer.toString("base64")}`);
       }
     }
 
@@ -46,7 +72,8 @@ export const addProduct = async (req, res) => {
     }
 
     if (images.length === 0) {
-      images = ["https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80"];
+      const defaultImg = CATEGORY_DEFAULT_IMAGES[category] || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80";
+      images = [defaultImg];
     }
 
     // Parse description if stringified
