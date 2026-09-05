@@ -3,7 +3,10 @@ import axios from "axios";
 // Determine backend URL dynamically
 export const BACKEND_URL =
   import.meta.env.VITE_BACKEND_URL ||
-  (window.location.hostname === "localhost" ? "http://localhost:8000" : "/api");
+  (typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:8000/api"
+    : "/api/grocery");
 
 const api = axios.create({
   baseURL: BACKEND_URL,

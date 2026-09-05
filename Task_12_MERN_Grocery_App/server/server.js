@@ -72,6 +72,13 @@ app.use("/api/grocery/cart", cartRouter);
 app.use("/api/grocery/address", addressRouter);
 app.use("/api/grocery/order", orderRouter);
 
+// Direct stripped path handlers
+app.use("/auth", authRouter);
+app.use("/product", productRouter);
+app.use("/cart", cartRouter);
+app.use("/address", addressRouter);
+app.use("/order", orderRouter);
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error("Express Error:", err.stack);
