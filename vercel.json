@@ -7,6 +7,22 @@
       "destination": "/api/hotel.js"
     },
     {
+      "source": "/api/hotels/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
+      "source": "/api/bookings/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
+      "source": "/api/payments/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
+      "source": "/api/admin/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
       "source": "/api/grocery/:path*",
       "destination": "/api/grocery.js"
     },
