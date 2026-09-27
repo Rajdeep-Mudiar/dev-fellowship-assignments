@@ -5,6 +5,8 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import AllRooms from "./pages/AllRooms";
 import RoomDetails from "./pages/RoomDetails";
+import Experience from "./pages/Experience";
+import About from "./pages/About";
 import MyBookings from "./pages/MyBookings";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
@@ -27,6 +29,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/rooms" element={<AllRooms />} />
           <Route path="/hotels" element={<AllRooms />} />
+          <Route path="/experience" element={<Experience />} />
+          <Route path="/about" element={<About />} />
           <Route path="/rooms/:id" element={<RoomDetails />} />
           <Route path="/hotels/:id" element={<RoomDetails />} />
 
