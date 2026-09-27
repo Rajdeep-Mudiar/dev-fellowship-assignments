@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createHotel } from "../../services/api";
-import { cities } from "../../assets/assets";
+import { assets, cities } from "../../assets/assets";
 
 const AddRoom = () => {
   const navigate = useNavigate();
@@ -21,6 +21,9 @@ const AddRoom = () => {
     totalRooms: 10,
     imageUrl: "",
   });
+
+  // State for uploaded image files (Data URLs)
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   const availableAmenities = [
     "Free WiFi",
@@ -52,6 +55,28 @@ const AddRoom = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle local file uploads (reads as base64 Data URLs)
+  const handleFileUpload = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files || files.length === 0) return;
+
+    files.forEach((file) => {
+      if (!file.type.startsWith("image/")) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setUploadedImages((prev) => [...prev, event.target.result]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleRemoveUploadedImage = (indexToRemove) => {
+    setUploadedImages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -60,6 +85,19 @@ const AddRoom = () => {
     if (!formData.name || !formData.description || !formData.address || !formData.pricePerNight) {
       setErrorMessage("Please fill all required fields.");
       return;
+    }
+
+    // Combine uploaded files + manual image URL or default luxury photos
+    let finalImages = [...uploadedImages];
+    if (formData.imageUrl && formData.imageUrl.trim() !== "") {
+      finalImages.unshift(formData.imageUrl.trim());
+    }
+
+    if (finalImages.length === 0) {
+      finalImages = [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200",
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200",
+      ];
     }
 
     try {
@@ -72,12 +110,7 @@ const AddRoom = () => {
         contact: formData.contact || "+1 555-0199",
         pricePerNight: Number(formData.pricePerNight),
         amenities: selectedAmenities,
-        images: formData.imageUrl
-          ? [formData.imageUrl]
-          : [
-              "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200",
-              "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200",
-            ],
+        images: finalImages,
         rooms: [
           {
             roomType: formData.roomType,
@@ -86,6 +119,7 @@ const AddRoom = () => {
             totalRooms: Number(formData.totalRooms) || 10,
             availableRooms: Number(formData.totalRooms) || 10,
             amenities: selectedAmenities,
+            images: finalImages.slice(0, 1),
           },
         ],
         rating: 4.8,
@@ -93,9 +127,9 @@ const AddRoom = () => {
       };
 
       const res = await createHotel(payload);
-      
+
       // Save locally to localStorage so it is 100% persistent in the user's browser
-      const newHotelObj = (res && res.data) ? res.data : { _id: "local_" + Date.now(), ...payload };
+      const newHotelObj = res && res.data ? res.data : { _id: "local_" + Date.now(), ...payload };
       try {
         const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
         const filtered = localList.filter((h) => h.name !== newHotelObj.name);
@@ -109,8 +143,13 @@ const AddRoom = () => {
         navigate("/owner/hotels");
       }, 600);
     } catch (err) {
-      // If network/API error, still save to local store so user never loses work
-      const fallbackObj = { _id: "local_" + Date.now(), ...formData, pricePerNight: Number(formData.pricePerNight), amenities: selectedAmenities };
+      const fallbackObj = {
+        _id: "local_" + Date.now(),
+        ...formData,
+        pricePerNight: Number(formData.pricePerNight),
+        amenities: selectedAmenities,
+        images: finalImages,
+      };
       try {
         const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
         localStorage.setItem("quickstay_custom_hotels", JSON.stringify([fallbackObj, ...localList]));
@@ -130,7 +169,7 @@ const AddRoom = () => {
       <div className="mb-6">
         <h1 className="font-playfair text-3xl font-bold text-gray-900">Add New Hotel Property</h1>
         <p className="text-gray-500 text-sm mt-1">
-          Register a new hotel, set starting prices, and define room specifications.
+          Register a new hotel, set starting prices, upload images, and define room specifications.
         </p>
       </div>
 
@@ -147,7 +186,84 @@ const AddRoom = () => {
       )}
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Image Upload Section */}
+        <div>
+          <label className="block text-xs font-semibold text-gray-700 mb-2">
+            Property Images (Upload from Device or paste URL)
+          </label>
+
+          {/* Upload Dropzone */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 hover:border-black rounded-2xl cursor-pointer bg-gray-50/60 hover:bg-gray-50 transition-all text-center">
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <img
+                src={assets.uploadArea}
+                alt="Upload"
+                className="w-10 h-10 mb-2 opacity-60 hover:opacity-100 transition-opacity"
+              />
+              <span className="text-xs font-semibold text-gray-800">
+                Click to browse & upload images
+              </span>
+              <span className="text-[11px] text-gray-400 mt-0.5">
+                PNG, JPG, WebP up to 10MB
+              </span>
+            </label>
+
+            {/* Optional Web Image URL Input */}
+            <div className="flex flex-col justify-center p-5 border border-gray-200 rounded-2xl bg-gray-50/30">
+              <label className="block text-xs font-semibold text-gray-600 mb-1">
+                Or Paste Image URL (Unsplash / CDN)
+              </label>
+              <input
+                type="url"
+                name="imageUrl"
+                placeholder="https://images.unsplash.com/photo-..."
+                value={formData.imageUrl}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl text-xs outline-none focus:border-black"
+              />
+              <span className="text-[11px] text-gray-400 mt-1">
+                Supports direct image links
+              </span>
+            </div>
+          </div>
+
+          {/* Uploaded Preview Thumbnails */}
+          {uploadedImages.length > 0 && (
+            <div className="mt-4">
+              <p className="text-xs font-semibold text-gray-700 mb-2">
+                Selected Images ({uploadedImages.length}):
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {uploadedImages.map((imgSrc, idx) => (
+                  <div key={idx} className="relative group w-20 h-20 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                    <img
+                      src={imgSrc}
+                      alt="Uploaded preview"
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveUploadedImage(idx)}
+                      className="absolute top-1 right-1 w-5 h-5 bg-black/80 text-white rounded-full flex items-center justify-center text-[10px] hover:bg-red-600 transition-colors cursor-pointer"
+                      title="Remove image"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t border-gray-100">
           <div className="md:col-span-2">
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">
               Hotel Name *
@@ -288,20 +404,6 @@ const AddRoom = () => {
               className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:border-black"
             />
           </div>
-
-          <div className="md:col-span-2">
-            <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-              Image URL (Unsplash or CDN)
-            </label>
-            <input
-              type="url"
-              name="imageUrl"
-              placeholder="https://images.unsplash.com/photo-..."
-              value={formData.imageUrl}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:border-black"
-            />
-          </div>
         </div>
 
         {/* Amenities Selection */}
@@ -319,7 +421,7 @@ const AddRoom = () => {
                   type="checkbox"
                   checked={selectedAmenities.includes(amenity)}
                   onChange={() => handleAmenityToggle(amenity)}
-                  className="rounded text-black"
+                  className="rounded text-black cursor-pointer"
                 />
                 <span>{amenity}</span>
               </label>
@@ -330,7 +432,7 @@ const AddRoom = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 bg-black hover:bg-gray-800 text-white font-medium rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full py-3.5 bg-black hover:bg-gray-800 text-white font-medium rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-98"
         >
           {loading ? "Registering Hotel..." : "Publish Hotel Property"}
         </button>
