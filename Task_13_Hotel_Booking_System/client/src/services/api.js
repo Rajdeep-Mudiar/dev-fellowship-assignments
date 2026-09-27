@@ -1,10 +1,30 @@
 import axios from "axios";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL ||
-  (typeof window !== "undefined" && window.location.hostname !== "localhost"
-    ? ""
-    : "http://localhost:5000");
+// Determine backend URL dynamically
+export const getBackendUrl = () => {
+  if (
+    import.meta.env.VITE_API_URL &&
+    !import.meta.env.VITE_API_URL.includes("localhost")
+  ) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  if (typeof window !== "undefined" && window.location) {
+    const hostname = window.location.hostname;
+    if (
+      hostname &&
+      hostname !== "localhost" &&
+      hostname !== "127.0.0.1" &&
+      !hostname.startsWith("192.168.")
+    ) {
+      return "/api/hotel";
+    }
+  }
+
+  return "http://localhost:5000/api/hotel";
+};
+
+export const API_BASE_URL = getBackendUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -26,82 +46,80 @@ export const setAuthToken = (token) => {
 
 // Hotel Services
 export const getHotels = async (params = {}) => {
-  const response = await api.get("/api/hotels", { params });
+  const response = await api.get("/hotels", { params });
   return response.data;
 };
 
 export const getHotelById = async (id) => {
-  const response = await api.get(`/api/hotels/${id}`);
+  const response = await api.get(`/hotels/${id}`);
   return response.data;
 };
 
 export const searchHotels = async (params) => {
-  const response = await api.get("/api/hotels/search", { params });
+  const response = await api.get("/hotels/search", { params });
   return response.data;
 };
 
 // Booking Services
 export const createBooking = async (bookingData) => {
-  const response = await api.post("/api/bookings", bookingData);
+  const response = await api.post("/bookings", bookingData);
   return response.data;
 };
 
 export const getMyBookings = async () => {
-  const response = await api.get("/api/bookings/my");
+  const response = await api.get("/bookings/my");
   return response.data;
 };
 
 export const getBookingById = async (id) => {
-  const response = await api.get(`/api/bookings/${id}`);
+  const response = await api.get(`/bookings/${id}`);
   return response.data;
 };
 
 export const cancelBooking = async (id) => {
-  const response = await api.patch(`/api/bookings/${id}/cancel`);
+  const response = await api.patch(`/bookings/${id}/cancel`);
   return response.data;
 };
 
 // Payment Services
 export const createCheckoutSession = async (bookingId) => {
-  const response = await api.post("/api/payments/create-checkout-session", { bookingId });
+  const response = await api.post("/payments/create-checkout-session", { bookingId });
   return response.data;
 };
 
 // Admin Services
 export const getAdminStats = async () => {
-  const response = await api.get("/api/admin/stats");
+  const response = await api.get("/admin/stats");
   return response.data;
 };
 
 export const getAdminHotels = async () => {
-  const response = await api.get("/api/admin/hotels");
+  const response = await api.get("/admin/hotels");
   return response.data;
 };
 
-export const createHotel = async (formData) => {
-  const response = await api.post("/api/admin/hotels", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+export const createHotel = async (hotelData) => {
+  const response = await api.post("/admin/hotels", hotelData);
   return response.data;
 };
 
 export const updateHotel = async (id, hotelData) => {
-  const response = await api.put(`/api/admin/hotels/${id}`, hotelData);
+  const response = await api.put(`/admin/hotels/${id}`, hotelData);
   return response.data;
 };
 
 export const deleteHotel = async (id) => {
-  const response = await api.delete(`/api/admin/hotels/${id}`);
+  const response = await api.delete(`/admin/hotels/${id}`);
   return response.data;
 };
 
 export const getAdminBookings = async (params = {}) => {
-  const response = await api.get("/api/admin/bookings", { params });
+  const response = await api.get("/admin/bookings", { params });
   return response.data;
 };
 
 export const updateBookingStatus = async (id, status) => {
-  const response = await api.patch(`/api/admin/bookings/${id}/status`, { status });
+  const response = await api.patch(`/admin/bookings/${id}/status`, { status });
   return response.data;
 };
 
