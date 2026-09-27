@@ -131,10 +131,54 @@ export const userDummyData = {
 export const hotelDummyData = {
     "_id": "67f76393197ac559e4089b72",
     "name": "Urbanza Suites",
-    "address": "Main Road  123 Street , 23 Colony",
-    "contact": "+0123456789",
+    "address": "Main Road 123 Street, Manhattan",
+    "contact": "+1 212 555 0199",
     "owner": userDummyData,
     "city": "New York",
+    "rating": 4.8,
+    "reviewsCount": 240,
+    "createdAt": "2025-04-10T06:22:11.663Z",
+    "updatedAt": "2025-04-10T06:22:11.663Z",
+    "__v": 0
+}
+
+export const londonHotelData = {
+    "_id": "67f76393197ac559e4089b73",
+    "name": "The Royal Crest Hotel",
+    "address": "45 Kensington Gardens, Central London",
+    "contact": "+44 20 7946 0991",
+    "owner": userDummyData,
+    "city": "London",
+    "rating": 4.9,
+    "reviewsCount": 310,
+    "createdAt": "2025-04-10T06:22:11.663Z",
+    "updatedAt": "2025-04-10T06:22:11.663Z",
+    "__v": 0
+}
+
+export const dubaiHotelData = {
+    "_id": "67f76393197ac559e4089b74",
+    "name": "Grand Horizon Bay Resort",
+    "address": "Palm Jumeirah Crescent",
+    "contact": "+971 4 555 0100",
+    "owner": userDummyData,
+    "city": "Dubai",
+    "rating": 4.9,
+    "reviewsCount": 450,
+    "createdAt": "2025-04-10T06:22:11.663Z",
+    "updatedAt": "2025-04-10T06:22:11.663Z",
+    "__v": 0
+}
+
+export const singaporeHotelData = {
+    "_id": "67f76393197ac559e4089b75",
+    "name": "Marina Bay Vista Hotel",
+    "address": "10 Bayfront Avenue",
+    "contact": "+65 6688 8868",
+    "owner": userDummyData,
+    "city": "Singapore",
+    "rating": 4.7,
+    "reviewsCount": 190,
     "createdAt": "2025-04-10T06:22:11.663Z",
     "updatedAt": "2025-04-10T06:22:11.663Z",
     "__v": 0
@@ -144,10 +188,10 @@ export const hotelDummyData = {
 export const roomsDummyData = [
     {
         "_id": "67f7647c197ac559e4089b96",
-        "hotel": hotelDummyData,
+        "hotel": londonHotelData,
         "roomType": "Double Bed",
         "pricePerNight": 399,
-        "amenities": ["Room Service", "Mountain View", "Pool Access"],
+        "amenities": ["Free WiFi", "Free Breakfast", "Room Service"],
         "images": [roomImg1, roomImg2, roomImg3, roomImg4],
         "isAvailable": true,
         "createdAt": "2025-04-10T06:26:04.013Z",
@@ -156,10 +200,10 @@ export const roomsDummyData = [
     },
     {
         "_id": "67f76452197ac559e4089b8e",
-        "hotel": hotelDummyData,
-        "roomType": "Double Bed",
+        "hotel": londonHotelData,
+        "roomType": "Luxury Room",
         "pricePerNight": 299,
-        "amenities": ["Room Service", "Mountain View", "Pool Access"],
+        "amenities": ["Free WiFi", "Room Service", "Mountain View"],
         "images": [roomImg2, roomImg3, roomImg4, roomImg1],
         "isAvailable": true,
         "createdAt": "2025-04-10T06:25:22.593Z",
@@ -185,6 +229,30 @@ export const roomsDummyData = [
         "pricePerNight": 199,
         "amenities": ["Free WiFi", "Room Service", "Pool Access"],
         "images": [roomImg4, roomImg1, roomImg2, roomImg3],
+        "isAvailable": true,
+        "createdAt": "2025-04-10T06:23:20.252Z",
+        "updatedAt": "2025-04-10T06:23:20.252Z",
+        "__v": 0
+    },
+    {
+        "_id": "67f763d8197ac559e4089b7b",
+        "hotel": dubaiHotelData,
+        "roomType": "Family Suite",
+        "pricePerNight": 499,
+        "amenities": ["Pool Access", "Free WiFi", "Mountain View"],
+        "images": [roomImg1, roomImg3, roomImg2, roomImg4],
+        "isAvailable": true,
+        "createdAt": "2025-04-10T06:23:20.252Z",
+        "updatedAt": "2025-04-10T06:23:20.252Z",
+        "__v": 0
+    },
+    {
+        "_id": "67f763d8197ac559e4089b7c",
+        "hotel": singaporeHotelData,
+        "roomType": "Luxury Room",
+        "pricePerNight": 349,
+        "amenities": ["Pool Access", "Free Breakfast", "Free WiFi"],
+        "images": [roomImg2, roomImg1, roomImg4, roomImg3],
         "isAvailable": true,
         "createdAt": "2025-04-10T06:23:20.252Z",
         "updatedAt": "2025-04-10T06:23:20.252Z",

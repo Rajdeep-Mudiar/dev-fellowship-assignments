@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { assets, facilityIcons, roomsDummyData } from "../assets/assets";
 import StarRating from "../components/StarRating";
@@ -59,6 +59,28 @@ const AllRooms = () => {
     "Rating",
   ];
 
+  // Helper to construct normalized fallback data
+  const getFallbackHotels = () => {
+    return roomsDummyData.map((r) => ({
+      _id: r._id,
+      name: r.hotel.name,
+      city: r.hotel.city,
+      address: r.hotel.address,
+      pricePerNight: r.pricePerNight,
+      amenities: r.amenities,
+      images: r.images,
+      rating: r.hotel.rating || 4.8,
+      reviewsCount: r.hotel.reviewsCount || 180,
+      rooms: [
+        {
+          roomType: r.roomType,
+          pricePerNight: r.pricePerNight,
+          capacity: r.roomType === "Single Bed" ? 1 : r.roomType === "Family Suite" ? 4 : 2,
+        },
+      ],
+    }));
+  };
+
   useEffect(() => {
     const fetchCatalog = async () => {
       setLoading(true);
@@ -69,57 +91,21 @@ const AllRooms = () => {
         if (checkOutParam) query.checkOut = checkOutParam;
         if (guestsParam) query.guests = guestsParam;
 
-        if (selectedPriceRange) {
-          const [min, max] = selectedPriceRange.replace("$ ", "").split(" to ");
-          if (min) query.minPrice = min.trim();
-          if (max) query.maxPrice = max.trim();
-        }
-
-        if (selectedSort) {
-          query.sort = selectedSort;
-        }
-
         const res = cityParam || checkInParam ? await searchHotels(query) : await getHotels(query);
         if (res.success && res.data && res.data.length > 0) {
           setHotels(res.data);
         } else {
-          // Fallback to dummy data mapped to hotel schema
-          const fallbackData = roomsDummyData.map((r) => ({
-            _id: r._id,
-            name: r.hotel.name,
-            city: r.hotel.city,
-            address: r.hotel.address,
-            pricePerNight: r.pricePerNight,
-            amenities: r.amenities,
-            images: r.images,
-            rating: 4.8,
-            reviewsCount: 180,
-            rooms: [{ roomType: r.roomType, pricePerNight: r.pricePerNight }],
-          }));
-          setHotels(fallbackData);
+          setHotels(getFallbackHotels());
         }
       } catch (err) {
-        // Fallback gracefully on local preview
-        const fallbackData = roomsDummyData.map((r) => ({
-          _id: r._id,
-          name: r.hotel.name,
-          city: r.hotel.city,
-          address: r.hotel.address,
-          pricePerNight: r.pricePerNight,
-          amenities: r.amenities,
-          images: r.images,
-          rating: 4.8,
-          reviewsCount: 180,
-          rooms: [{ roomType: r.roomType, pricePerNight: r.pricePerNight }],
-        }));
-        setHotels(fallbackData);
+        setHotels(getFallbackHotels());
       } finally {
         setLoading(false);
       }
     };
 
     fetchCatalog();
-  }, [cityParam, checkInParam, checkOutParam, guestsParam, selectedPriceRange, selectedSort]);
+  }, [cityParam, checkInParam, checkOutParam, guestsParam]);
 
   const handleRoomTypeChange = (checked, label) => {
     setSelectedRoomTypes((prev) =>
@@ -133,11 +119,57 @@ const AllRooms = () => {
     setSelectedSort("Newest First");
   };
 
-  // Client-side filtering if multiple room types are ticked
-  const filteredHotels = hotels.filter((hotel) => {
-    if (selectedRoomTypes.length === 0) return true;
-    return hotel.rooms?.some((r) => selectedRoomTypes.includes(r.roomType));
-  });
+  // Comprehensive reactive filtering & sorting pipeline
+  const filteredHotels = useMemo(() => {
+    let list = [...hotels];
+
+    // 1. City / Destination Filter
+    if (cityParam && cityParam.trim() !== "") {
+      const searchTarget = cityParam.toLowerCase().trim();
+      const cityMatches = list.filter(
+        (hotel) =>
+          hotel.city?.toLowerCase().includes(searchTarget) ||
+          hotel.address?.toLowerCase().includes(searchTarget) ||
+          hotel.name?.toLowerCase().includes(searchTarget)
+      );
+
+      // If specific city matches exist, use them; otherwise keep all as discovery
+      if (cityMatches.length > 0) {
+        list = cityMatches;
+      }
+    }
+
+    // 2. Room Type Filter
+    if (selectedRoomTypes.length > 0) {
+      list = list.filter((hotel) =>
+        hotel.rooms?.some((r) => selectedRoomTypes.includes(r.roomType))
+      );
+    }
+
+    // 3. Price Range Filter
+    if (selectedPriceRange) {
+      const cleanRange = selectedPriceRange.replace("$", "").trim();
+      const [minStr, maxStr] = cleanRange.split("to").map((s) => s.trim());
+      const min = Number(minStr) || 0;
+      const max = Number(maxStr) || Infinity;
+
+      list = list.filter((hotel) => {
+        const price = hotel.pricePerNight;
+        return price >= min && price <= max;
+      });
+    }
+
+    // 4. Sort Filter
+    if (selectedSort === "Price Low to High") {
+      list.sort((a, b) => a.pricePerNight - b.pricePerNight);
+    } else if (selectedSort === "Price High to Low") {
+      list.sort((a, b) => b.pricePerNight - a.pricePerNight);
+    } else if (selectedSort === "Rating") {
+      list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
+
+    return list;
+  }, [hotels, cityParam, selectedRoomTypes, selectedPriceRange, selectedSort]);
 
   return (
     <div className="flex flex-col-reverse lg:flex-row items-start justify-between pt-28 md:pt-36 px-4 md:px-16 lg:px-24 xl:px-32 gap-10 max-w-7xl mx-auto pb-24">
@@ -158,10 +190,11 @@ const AllRooms = () => {
           </div>
         ) : filteredHotels.length === 0 ? (
           <div className="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
-            <p className="text-gray-600 font-medium">No hotels found matching your search.</p>
+            <p className="text-gray-600 font-medium">No hotels found matching the selected filters.</p>
+            <p className="text-xs text-gray-400 mt-1">Try expanding your price range or selecting different room types.</p>
             <button
               onClick={handleClearFilters}
-              className="mt-4 px-6 py-2 bg-black text-white text-xs font-semibold rounded-full"
+              className="mt-4 px-6 py-2 bg-black text-white text-xs font-semibold rounded-full hover:bg-gray-800 transition-all cursor-pointer"
             >
               Reset Filters
             </button>
