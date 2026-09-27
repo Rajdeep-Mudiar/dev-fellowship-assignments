@@ -8,11 +8,10 @@ import { AppProvider } from "./context/AppContext.jsx";
 
 const PUBLISHABLE_KEY =
   import.meta.env.VITE_CLERK_PUBLISHABLE_KEY ||
-  import.meta.env.CLERK_PUBLISHABLE_KEY ||
-  "pk_test_aGVyb2ljLWNoaWNrZW4tMTk0NS5jbGVyay5hY2NvdW50cy5kZXYk";
+  import.meta.env.CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Add your Clerk Publishable Key to the .env file");
+  throw new Error("Add your Clerk Publishable Key (VITE_CLERK_PUBLISHABLE_KEY) to the .env file or Vercel environment variables");
 }
 
 createRoot(document.getElementById("root")).render(
