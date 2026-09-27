@@ -22,20 +22,13 @@ import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB and seed baseline properties
+// Standard CORS
+app.use(cors());
+
+// Connect to MongoDB asynchronously without blocking
 connectDB()
   .then(() => seedDatabase())
   .catch((e) => console.log("DB Init notice:", e.message));
-
-// Dynamic CORS configuration
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      callback(null, true);
-    },
-    credentials: true,
-  })
-);
 
 // Stripe Webhook MUST be mounted before express.json() with raw parser
 app.post(
@@ -48,12 +41,12 @@ app.post(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Ensure DB is connected for serverless invocations
+// Ensure DB connect attempt on serverless requests without blocking
 app.use(async (req, res, next) => {
   try {
     await connectDB();
   } catch (err) {
-    console.error("DB connection error in request middleware:", err.message);
+    // Non-blocking fallback
   }
   next();
 });

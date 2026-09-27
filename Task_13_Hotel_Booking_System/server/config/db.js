@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+// Disable buffering so failed DB connections immediately fallback instead of timing out
+mongoose.set("bufferCommands", false);
+
 const DEFAULT_URI =
   "mongodb+srv://rajdeepmudiar01_db_user:BNKIDuG1WC8TKuAg@cluster0.rstqabv.mongodb.net/?appName=Cluster0";
 
@@ -9,22 +12,16 @@ const connectDB = async () => {
   }
 
   try {
-    mongoose.connection.on("connected", () => {
-      console.log("MongoDB Database Connected successfully");
-    });
-
-    mongoose.connection.on("error", (err) => {
-      console.error("MongoDB Connection Error:", err.message);
-    });
-
     const uri = process.env.MONGODB_URI || DEFAULT_URI;
 
     await mongoose.connect(uri, {
       dbName: "quickstay-hotel-booking",
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 2500,
+      connectTimeoutMS: 2500,
     });
+    console.log("MongoDB Database Connected successfully");
   } catch (error) {
-    console.error("MongoDB connection notice:", error.message);
+    console.warn("MongoDB connection notice (will use in-memory fallback):", error.message);
   }
 };
 
