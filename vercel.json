@@ -3,7 +3,15 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/api/hotel",
+      "destination": "/api/hotel.js"
+    },
+    {
       "source": "/api/hotel/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
+      "source": "/api/hotels",
       "destination": "/api/hotel.js"
     },
     {
@@ -11,7 +19,15 @@
       "destination": "/api/hotel.js"
     },
     {
+      "source": "/api/bookings",
+      "destination": "/api/hotel.js"
+    },
+    {
       "source": "/api/bookings/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
+      "source": "/api/payments",
       "destination": "/api/hotel.js"
     },
     {
@@ -19,8 +35,16 @@
       "destination": "/api/hotel.js"
     },
     {
+      "source": "/api/admin",
+      "destination": "/api/hotel.js"
+    },
+    {
       "source": "/api/admin/:path*",
       "destination": "/api/hotel.js"
+    },
+    {
+      "source": "/api/grocery",
+      "destination": "/api/grocery.js"
     },
     {
       "source": "/api/grocery/:path*",
