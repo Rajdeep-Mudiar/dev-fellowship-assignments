@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "npm --prefix Task_13_Hotel_Booking_System/client run dev",
     "build": "node build.mjs"
   },
   "devDependencies": {

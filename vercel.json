@@ -3,6 +3,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/api/hotel/:path*",
+      "destination": "/api/hotel.js"
+    },
+    {
       "source": "/api/grocery/:path*",
       "destination": "/api/grocery.js"
     },
@@ -37,6 +41,10 @@
     {
       "source": "/Task_12_MERN_Grocery_App/client/dist/:path*",
       "destination": "/Task_12_MERN_Grocery_App/client/dist/index.html"
+    },
+    {
+      "source": "/Task_13_Hotel_Booking_System/client/dist/:path*",
+      "destination": "/Task_13_Hotel_Booking_System/client/dist/index.html"
     }
   ]
 }
