@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
@@ -27,14 +26,6 @@ const PORT = process.env.PORT || 5000;
 connectDB()
   .then(() => seedDatabase())
   .catch((e) => console.log("DB Init notice:", e.message));
-
-// Security Middleware
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    crossOriginResourcePolicy: false,
-  })
-);
 
 // Dynamic CORS configuration
 app.use(
@@ -74,14 +65,16 @@ const clerkPub =
 const clerkSecret = process.env.CLERK_SECRET_KEY;
 
 if (clerkPub && clerkSecret) {
-  app.use(
-    clerkMiddleware({
-      publishableKey: clerkPub,
-      secretKey: clerkSecret,
-    })
-  );
-} else {
-  console.warn("Clerk keys not fully configured in backend. Proceeding with fallback auth handling.");
+  try {
+    app.use(
+      clerkMiddleware({
+        publishableKey: clerkPub,
+        secretKey: clerkSecret,
+      })
+    );
+  } catch (err) {
+    console.warn("Clerk middleware init warning:", err.message);
+  }
 }
 
 // API Health Check

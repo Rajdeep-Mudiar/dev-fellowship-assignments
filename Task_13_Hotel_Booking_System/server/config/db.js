@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+const DEFAULT_URI =
+  "mongodb+srv://rajdeepmudiar01_db_user:BNKIDuG1WC8TKuAg@cluster0.rstqabv.mongodb.net/?appName=Cluster0";
+
 const connectDB = async () => {
   if (mongoose.connection.readyState >= 1) {
     return;
@@ -14,11 +17,7 @@ const connectDB = async () => {
       console.error("MongoDB Connection Error:", err.message);
     });
 
-    const uri = process.env.MONGODB_URI;
-    if (!uri) {
-      console.warn("MONGODB_URI not found in environment variables.");
-      return;
-    }
+    const uri = process.env.MONGODB_URI || DEFAULT_URI;
 
     await mongoose.connect(uri, {
       dbName: "quickstay-hotel-booking",
