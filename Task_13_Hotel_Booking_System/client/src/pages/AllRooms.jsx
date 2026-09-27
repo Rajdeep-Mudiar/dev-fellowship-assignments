@@ -44,7 +44,6 @@ const AllRooms = () => {
 
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openFilters, setOpenFilters] = useState(false);
 
   const [selectedRoomTypes, setSelectedRoomTypes] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
@@ -92,13 +91,28 @@ const AllRooms = () => {
         if (guestsParam) query.guests = guestsParam;
 
         const res = cityParam || checkInParam ? await searchHotels(query) : await getHotels(query);
-        if (res.success && res.data && res.data.length > 0) {
-          setHotels(res.data);
-        } else {
-          setHotels(getFallbackHotels());
-        }
+        let list = res.success && res.data && res.data.length > 0 ? res.data : getFallbackHotels();
+
+        // Merge locally saved custom hotels from localStorage
+        try {
+          const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
+          if (localList.length > 0) {
+            const existingNames = new Set(list.map((h) => h.name));
+            const toAdd = localList.filter((h) => !existingNames.has(h.name));
+            list = [...toAdd, ...list];
+          }
+        } catch (e) {}
+
+        setHotels(list);
       } catch (err) {
-        setHotels(getFallbackHotels());
+        let fallback = getFallbackHotels();
+        try {
+          const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
+          if (localList.length > 0) {
+            fallback = [...localList, ...fallback];
+          }
+        } catch (e) {}
+        setHotels(fallback);
       } finally {
         setLoading(false);
       }
@@ -133,7 +147,6 @@ const AllRooms = () => {
           hotel.name?.toLowerCase().includes(searchTarget)
       );
 
-      // If specific city matches exist, use them; otherwise keep all as discovery
       if (cityMatches.length > 0) {
         list = cityMatches;
       }
@@ -203,7 +216,7 @@ const AllRooms = () => {
           <div className="space-y-8">
             {filteredHotels.map((hotel) => (
               <div
-                key={hotel._id}
+                key={hotel._id || hotel.name}
                 className="flex flex-col md:flex-row items-start p-5 bg-white border border-gray-200 rounded-2xl gap-6 shadow-sm hover:shadow-md transition-all"
               >
                 <img

@@ -34,6 +34,19 @@ const RoomDetails = () => {
     const fetchHotel = async () => {
       setLoading(true);
       try {
+        // First check custom hotels saved in localStorage
+        try {
+          const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
+          const localMatch = localList.find((h) => h._id === id || h.name === id);
+          if (localMatch) {
+            setHotel(localMatch);
+            setSelectedImage(localMatch.images?.[0] || "");
+            setSelectedRoomType(localMatch.rooms?.[0]?.roomType || "Double Bed");
+            setLoading(false);
+            return;
+          }
+        } catch (e) {}
+
         const res = await getHotelById(id);
         if (res.success && res.data) {
           setHotel(res.data);
@@ -43,13 +56,13 @@ const RoomDetails = () => {
       } catch (err) {
         // Fallback to dummy data matching id or first item
         const fallback =
-          roomsDummyData.find((r) => r._id === id || r.hotel._id === id) ||
+          roomsDummyData.find((r) => r._id === id || r.hotel?._id === id) ||
           roomsDummyData[0];
         setHotel({
           _id: fallback._id,
-          name: fallback.hotel.name,
-          city: fallback.hotel.city,
-          address: fallback.hotel.address,
+          name: fallback.hotel?.name || "Urbanza Suites",
+          city: fallback.hotel?.city || "New York",
+          address: fallback.hotel?.address || "Main Road 123 Street",
           description:
             "Immerse yourself in unrivaled luxury and world-class service. Designed for discerning travelers seeking comfort, style, and memorable moments.",
           rating: 4.8,
@@ -66,7 +79,7 @@ const RoomDetails = () => {
             },
           ],
         });
-        setSelectedImage(fallback.images[0]);
+        setSelectedImage(fallback.images?.[0] || "");
         setSelectedRoomType(fallback.roomType);
       } finally {
         setLoading(false);
@@ -114,8 +127,8 @@ const RoomDetails = () => {
         checkOut,
         guests: Number(guests),
         numberOfRooms: Number(roomsCount),
-        userEmail: user.primaryEmailAddress?.emailAddress,
-        userName: user.fullName || user.firstName || "Guest",
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        userName: user?.fullName || user?.firstName || "Guest",
       };
 
       const bookingRes = await createBooking(bookingData);
@@ -151,7 +164,7 @@ const RoomDetails = () => {
         <h2 className="text-2xl font-bold">Hotel Not Found</h2>
         <button
           onClick={() => navigate("/rooms")}
-          className="mt-4 px-6 py-2 bg-black text-white rounded-full"
+          className="mt-4 px-6 py-2 bg-black text-white rounded-full cursor-pointer"
         >
           Back to Hotels
         </button>
@@ -169,9 +182,9 @@ const RoomDetails = () => {
           </h1>
           <div className="flex items-center gap-3 mt-2 text-sm text-gray-600">
             <div className="flex items-center gap-1">
-              <StarRating rating={hotel.rating || 4.5} />
+              <StarRating rating={hotel.rating || 4.8} />
               <span className="font-semibold ml-1 text-gray-800">
-                {hotel.rating || 4.5}
+                {hotel.rating || 4.8}
               </span>
               <span className="text-gray-400">
                 ({hotel.reviewsCount || 120} reviews)
@@ -192,7 +205,7 @@ const RoomDetails = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         <div className="md:col-span-2">
           <img
-            src={selectedImage || hotel.images[0]}
+            src={selectedImage || hotel.images?.[0] || "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200"}
             alt={hotel.name}
             className="w-full h-72 md:h-[420px] object-cover rounded-2xl shadow-sm"
           />
@@ -275,7 +288,7 @@ const RoomDetails = () => {
               </div>
               <div className="flex items-center gap-1 text-sm text-gray-700">
                 <img src={assets.starIconFilled} alt="" className="w-4 h-4" />
-                <span className="font-semibold">{hotel.rating || 4.5}</span>
+                <span className="font-semibold">{hotel.rating || 4.8}</span>
               </div>
             </div>
 

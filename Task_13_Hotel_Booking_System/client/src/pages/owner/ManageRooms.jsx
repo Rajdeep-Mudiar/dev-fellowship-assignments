@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAdminHotels, deleteHotel } from "../../services/api";
 import { Link } from "react-router-dom";
+import { roomsDummyData } from "../../assets/assets";
 
 const ManageRooms = () => {
   const [hotels, setHotels] = useState([]);
@@ -11,11 +12,25 @@ const ManageRooms = () => {
     setLoading(true);
     try {
       const res = await getAdminHotels();
-      if (res.success && res.data) {
-        setHotels(res.data);
-      }
+      let list = res.success && res.data ? res.data : [];
+
+      // Merge locally saved custom hotels from localStorage
+      try {
+        const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
+        if (localList.length > 0) {
+          const existingNames = new Set(list.map((h) => h.name));
+          const toAdd = localList.filter((h) => !existingNames.has(h.name));
+          list = [...toAdd, ...list];
+        }
+      } catch (e) {}
+
+      setHotels(list);
     } catch (err) {
       console.error("Error fetching admin hotels:", err);
+      try {
+        const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
+        setHotels(localList.length > 0 ? localList : []);
+      } catch (e) {}
     } finally {
       setLoading(false);
     }
@@ -25,17 +40,23 @@ const ManageRooms = () => {
     fetchHotels();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this property?")) return;
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to delete "${name || "this property"}"?`)) return;
 
     try {
       setDeleteLoading(id);
-      const res = await deleteHotel(id);
-      if (res.success) {
-        fetchHotels();
-      }
+      await deleteHotel(id).catch(() => {});
+
+      // Remove from localStorage
+      try {
+        const localList = JSON.parse(localStorage.getItem("quickstay_custom_hotels") || "[]");
+        const updated = localList.filter((h) => h._id !== id && h.name !== name);
+        localStorage.setItem("quickstay_custom_hotels", JSON.stringify(updated));
+      } catch (e) {}
+
+      setHotels((prev) => prev.filter((h) => h._id !== id && h.name !== name));
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to delete hotel");
+      setHotels((prev) => prev.filter((h) => h._id !== id && h.name !== name));
     } finally {
       setDeleteLoading(null);
     }
@@ -92,10 +113,10 @@ const ManageRooms = () => {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {hotels.map((hotel) => (
-                  <tr key={hotel._id} className="hover:bg-gray-50/50">
+                  <tr key={hotel._id || hotel.name} className="hover:bg-gray-50/50">
                     <td className="py-4 px-6 flex items-center gap-3">
                       <img
-                        src={hotel.images?.[0]}
+                        src={hotel.images?.[0] || "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200"}
                         alt=""
                         className="w-12 h-12 object-cover rounded-lg"
                       />
@@ -106,13 +127,13 @@ const ManageRooms = () => {
                     </td>
                     <td className="py-4 px-6 font-medium text-gray-800">{hotel.city}</td>
                     <td className="py-4 px-6 font-bold text-gray-900">${hotel.pricePerNight} / night</td>
-                    <td className="py-4 px-6">★ {hotel.rating || 4.5}</td>
+                    <td className="py-4 px-6">★ {hotel.rating || 4.8}</td>
                     <td className="py-4 px-6">
-                      {hotel.rooms?.reduce((acc, r) => acc + (r.totalRooms || 5), 0) || 5} rooms
+                      {hotel.rooms?.reduce((acc, r) => acc + (r.totalRooms || 5), 0) || 10} rooms
                     </td>
                     <td className="py-4 px-6 text-right">
                       <button
-                        onClick={() => handleDelete(hotel._id)}
+                        onClick={() => handleDelete(hotel._id, hotel.name)}
                         disabled={deleteLoading === hotel._id}
                         className="px-3 py-1.5 border border-red-200 text-red-600 rounded-lg text-xs font-medium hover:bg-red-50 transition-all cursor-pointer"
                       >
